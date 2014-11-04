@@ -3,41 +3,47 @@
 .blackbg { z-index: 5000; background-color: #666; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"; filter: alpha(opacity=20); opacity: 0.2; width:100%; height:100%; top:0; left:0; position:absolute;}
 </style>
 <link href="<?php echo $this->config->base_url(); ?>assets/css/bootstrap-fileupload.css" rel="stylesheet">
+<script src="<?php echo $this->config->base_url(); ?>assets/js/jquery-ui.js"></script>
 <script src="<?php echo $this->config->base_url(); ?>assets/js/validation.js"></script>
 <script type="text/javascript">
-$(document).ready(function(){
-	$('form').form();
-		$('#category').change(function() {
-			var v = $(this).val();
-			$('#loading').show();
-					$.ajax({
-					  type: "get",
-					  async: false,
-					  url: "index.php?module=products&view=getSubCategories",
-					  data: { <?php echo $this->security->get_csrf_token_name(); ?>: "<?php echo $this->security->get_csrf_hash() ?>", category_id: v },
-					  dataType: "html",
-					  success: function(data) {
-						if(data != "") {
-							$('#subcat_data').empty();
-							$('#subcat_data').html(data);
-						} else {
-							$('#subcat_data').empty();
-							var default_data = '<select name="subcategory" class="span4" id="subcategory" data-placeholder="<?php echo $this->lang->line("select_category_to_load"); ?>"></select>';
-							$('#subcat_data').html(default_data);
-							//bootbox.alert('<?php echo $this->lang->line('no_subcategory'); ?>');
-						}
-					  },
-					  error: function(){
-       					bootbox.alert('<?php echo $this->lang->line('ajax_error'); ?>');
-						$('#loading').hide();
-    				  }
-					  
-					});
-					$("form select").chosen({no_results_text: "No results matched", disable_search_threshold: 5, allow_single_deselect:true });
-					$('#loading').hide();
-		});
-	});
+  $(document).ready(function(){
+    $(".date").datepicker({
+        format: "<?php echo JS_DATE; ?>",
+        autoclose: true
+    });
+    $(".date").datepicker("setDate");
 
+  	$('form').form();
+  		$('#category').change(function() {
+  			var v = $(this).val();
+  			$('#loading').show();
+  					$.ajax({
+  					  type: "get",
+  					  async: false,
+  					  url: "index.php?module=products&view=getSubCategories",
+  					  data: { <?php echo $this->security->get_csrf_token_name(); ?>: "<?php echo $this->security->get_csrf_hash() ?>", category_id: v },
+  					  dataType: "html",
+  					  success: function(data) {
+  						if(data != "") {
+  							$('#subcat_data').empty();
+  							$('#subcat_data').html(data);
+  						} else {
+  							$('#subcat_data').empty();
+  							var default_data = '<select name="subcategory" class="span4" id="subcategory" data-placeholder="<?php echo $this->lang->line("select_category_to_load"); ?>"></select>';
+  							$('#subcat_data').html(default_data);
+  							//bootbox.alert('<?php echo $this->lang->line('no_subcategory'); ?>');
+  						}
+  					  },
+  					  error: function(){
+         					bootbox.alert('<?php echo $this->lang->line('ajax_error'); ?>');
+  						$('#loading').hide();
+      				  }
+  					  
+  					});
+  					$("form select").chosen({no_results_text: "No results matched", disable_search_threshold: 5, allow_single_deselect:true });
+  					$('#loading').hide();
+  		});
+  	});
 </script>
 
 <?php if($message) { echo "<div class=\"alert alert-error\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>" . $message . "</div>"; } ?>
@@ -49,77 +55,86 @@ $(document).ready(function(){
 	<?php $attrib = array('class' => 'form-horizontal'); echo form_open_multipart("module=products&view=add", $attrib); ?>
 
 <div class="control-group">
-  <label class="control-label" for="code"><?php echo $this->lang->line("product_code"); ?></label>
-  <div class="controls"> <?php echo form_input($code, (isset($_POST['code']) ? $_POST['code'] : ""), 'class="span4 tip" id="code" title="'.$this->lang->line("pr_code_tip").'" required="required" data-error="'.$this->lang->line("product_code").' '.$this->lang->line("is_required").'"'); ?> </div>
-</div>
-<div class="control-group">
-  <label class="control-label" for="name"><?php echo $this->lang->line("product_name"); ?></label>
-  <div class="controls"> <?php echo form_input($name, (isset($_POST['name']) ? $_POST['name'] : ""), 'class="span4 tip" id="name" title="'.$this->lang->line("pr_name_tip").'" required="required" data-error="'.$this->lang->line("product_name").' '.$this->lang->line("is_required").'"');?> </div>
-</div>
-<div class="control-group">
-  <label class="control-label" for="category"><?php echo $this->lang->line("category"); ?></label>
-  <div class="controls">  <?php 
-	  $cat[''] = "";
-	  	foreach($categories as $category) {
-    		$cat[$category->id] = $category->name;
-		}
-		echo form_dropdown('category', $cat, (isset($_POST['category']) ? $_POST['category'] : ""), 'class="tip chzn-select span4" id="category" data-placeholder="'.$this->lang->line("select")." ".$this->lang->line("category").'" title="'.$this->lang->line("pr_category_tip").'" required="required" data-error="'.$this->lang->line("category").' '.$this->lang->line("is_required").'"'); ?> </div>
-</div>
-<div class="control-group">
-  <label class="control-label" for="subcategory"><?php echo $this->lang->line("subcategory"); ?></label>
-  <div class="controls" id="subcat_data"> <?php 
-	   		$sct[""] = '';
-	   		
-			echo form_dropdown('subcategory', $sct, '', 'class="span4" id="subcategory"  data-placeholder="'.$this->lang->line("select_category_to_load").'"');  ?> </div>
-</div>
-<div class="control-group">
-  <label class="control-label" for="unit"><?php echo $this->lang->line("product_unit"); ?></label>
-  <div class="controls"> <?php echo form_input($unit, (isset($_POST['unit']) ? $_POST['unit'] : ""), 'class="span4 tip" id="unit" title="'.$this->lang->line("pr_unit_tip").'" required="required" data-error="'.$this->lang->line("product_unit").' '.$this->lang->line("is_required").'"'); ?> </div>
-</div>
-<div class="control-group">
-  <label class="control-label" for="size"><?php echo $this->lang->line("size"); ?></label>
-  <div class="controls"> <?php echo form_input($size, (isset($_POST['size']) ? $_POST['size'] : ""), 'class="span4 tip" id="size" title="'.$this->lang->line("pr_size_tip").'"'); ?> </div>
+  <label class="control-label" for="description"><?php echo $this->lang->line("product_description"); ?></label>
+  <div class="controls"> <?php echo form_input('description', (isset($_POST['description']) ? $_POST['description'] : ""), 'class="span4 tip" id="description" required="required" data-error="'.$this->lang->line("product_description").' '.$this->lang->line("is_required").'"'); ?> * </div>
 </div>
 
 <div class="control-group">
-  <label class="control-label" for="cost"><?php echo $this->lang->line("product_cost"); ?></label>
-  <div class="controls"> <?php echo form_input($cost, (isset($_POST['cost']) ? $_POST['cost'] : ""), 'class="span4 tip" id="cost" title="'.$this->lang->line("pr_cost_tip").'" required="required" data-error="'.$this->lang->line("product_cost").' '.$this->lang->line("is_required").'"'); ?> </div>
+  <label class="control-label" for="tagname"><?php echo $this->lang->line("product_tagname"); ?></label>
+  <div class="controls"> <?php echo form_input('tagname', (isset($_POST['tagname']) ? $_POST['tagname'] : ""), 'class="span4 tip" id="tagname" title="'.$this->lang->line("pr_tagname_tip").'" required="required" data-error="'.$this->lang->line("product_tagname").' '.$this->lang->line("is_required").'"'); ?> * </div>
 </div>
+
 <div class="control-group">
-  <label class="control-label" for="price"><?php echo $this->lang->line("product_price"); ?></label>
-  <div class="controls"> <?php echo form_input($price, (isset($_POST['price']) ? $_POST['price'] : ""), 'class="span4 tip" id="price" title="'.$this->lang->line("pr_price_tip").'" required="required" data-error="'.$this->lang->line("product_price").' '.$this->lang->line("is_required").'"'); ?> </div>
-</div>
-<div class="control-group">
-  <label class="control-label" for="alert_quantity"><?php echo $this->lang->line("alert_quantity"); ?></label>
-  <div class="controls"> <div class=" span4 input-prepend">
-    <span class="add-on" style="padding:1px 5px 7px; "><input type="checkbox" name="track_quantity" id="inlineCheckbox1" value="1" checked="checked"></span>      
-    <?php echo form_input('alert_quantity', (isset($_POST['alert_quantity']) ? $_POST['alert_quantity'] : ""), 'class="input-block-level" id="alert_quantity" required="required" data-error="'.$this->lang->line("alert_quantity").' '.$this->lang->line("is_required").'" onClick="this.select();"'); ?>
+    <label class="control-label" id="warehouse_l"><?php echo $this->lang->line("warehouse"); ?></label>
+    <div class="controls">  
+        <?php
+            $wh[''] = '';
+            foreach ($warehouses as $warehouse) {
+                $wh[$warehouse->id] = $warehouse->name;
+            }
+            echo form_dropdown('warehouse', $wh, (isset($_POST['warehouse']) ? $_POST['warehouse'] : DEFAULT_WAREHOUSE), 'id="warehouse_s" data-placeholder="' . $this->lang->line("select") . ' ' . $this->lang->line("warehouse") . '" required="required" data-error="' . $this->lang->line("warehouse") . ' ' . $this->lang->line("is_required") . '"');
+        ?> 
     </div>
 </div>
-</div>
+
 <div class="control-group">
-  <label class="control-label" id="tax_rate"><?php echo $this->lang->line("product_tax"); ?></label>
-  <div class="controls">  <?php 
-	  $tr[""] = "";
-	   		foreach($tax_rates as $tax){
-				$tr[$tax->id] = $tax->name;
-			}
-		echo form_dropdown('tax_rate', $tr, (isset($_POST['tax_rate']) ? $_POST['tax_rate'] : DEFAULT_TAX), 'id="tax_rate" data-placeholder="'.$this->lang->line("select").' '.$this->lang->line("product_tax").'" required="required" data-error="'.$this->lang->line("product_tax").' '.$this->lang->line("is_required").'"'); ?> </div>
+  <label class="control-label" for="location_in_warehouse"><?php echo $this->lang->line("product_location"); ?></label>
+  <div class="controls"> <?php echo form_input('location_in_warehouse', (isset($_POST['location_in_warehouse']) ? $_POST['location_in_warehouse'] : ""), 'class="span4 tip" id="location_in_warehouse"'); ?> </div>
 </div>
+
 <div class="control-group">
-  <label class="control-label" for="product_image"><?php echo $this->lang->line("product_image"); ?></label>
-  <div class="controls">
-<!--<div class="fileupload fileupload-new" data-provides="fileupload">
-<div class="input-append">
-<div class="uneditable-input span3"><i class="icon-file fileupload-exists"></i> <span class="fileupload-preview"></span></div><span class="btn btn-file"><span class="fileupload-new">Select file</span><span class="fileupload-exists">Change</span><input type="file" /></span><a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+  <label class="control-label" for="construction"><?php echo $this->lang->line("product_construction"); ?></label>
+  <div class="controls"> <?php echo form_input('construction', (isset($_POST['construction']) ? $_POST['construction'] : ""), 'class="span4 tip" id="construction"'); ?> </div>
 </div>
-</div>-->
-<div class="fileupload fileupload-new" data-provides="fileupload">
-<span class="btn btn-file"><span class="fileupload-new"><?php echo $this->lang->line("select_image"); ?></span><span class="fileupload-exists"><?php echo $this->lang->line("change"); ?></span><input type="file" name="userfile" id="product_image" /></span>
-<span class="fileupload-preview"></span>
-<a href="#" class="close fileupload-exists" data-dismiss="fileupload" style="float: none">×</a>
+
+<div class="control-group">
+    <label class="control-label" for="date_of_issuing"><?php echo $this->lang->line("product_date_of_issuing"); ?></label>
+    <div class="controls"> <?php echo form_input('date_of_issuing', (isset($_POST['date_of_issuing']) ? $_POST['date_of_issuing'] : ""), 'class="span4 date" id="date_of_issuing"'); ?></div>
 </div>
-  </div>
+
+<div class="control-group">
+    <label class="control-label" for="date_of_storage"><?php echo $this->lang->line("product_date_of_storage"); ?></label>
+    <div class="controls"> <?php echo form_input('date_of_storage', (isset($_POST['date_of_storage']) ? $_POST['date_of_storage'] : ""), 'class="span4 date" id="date_of_storage"'); ?></div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="cert_no"><?php echo $this->lang->line("product_cert"); ?></label>
+  <div class="controls"> <?php echo form_input('cert_no', (isset($_POST['cert_no']) ? $_POST['cert_no'] : ""), 'class="span4" id="cert_no"'); ?> </div>
+</div>
+
+<div class="control-group">
+    <label class="control-label" for="date_of_testing"><?php echo $this->lang->line("product_date_of_testing"); ?></label>
+    <div class="controls"> <?php echo form_input('date_of_testing', (isset($_POST['date_of_testing']) ? $_POST['date_of_testing'] : ""), 'class="span4 date" id="date_of_testing"'); ?></div>
+</div>
+
+<div class="control-group">
+    <label class="control-label" for="date_of_next_testing"><?php echo $this->lang->line("product_date_of_next_testing"); ?></label>
+    <div class="controls"> <?php echo form_input('date_of_next_testing', (isset($_POST['date_of_next_testing']) ? $_POST['date_of_next_testing'] : ""), 'class="span4 date" id="date_of_next_testing"'); ?></div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="status"><?php echo $this->lang->line("product_status"); ?></label>
+  <div class="controls"> <?php echo form_input('status', (isset($_POST['status']) ? $_POST['status'] : ""), 'class="span4" id="status"'); ?> </div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="remark"><?php echo $this->lang->line("product_remark"); ?></label>
+  <div class="controls"> <?php echo form_input('remark', (isset($_POST['remark']) ? $_POST['remark'] : ""), 'class="span4" id="remark"'); ?> </div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="collecting"><?php echo $this->lang->line("product_collecting"); ?></label>
+  <div class="controls"> <?php echo form_checkbox('collecting', (isset($_POST['collecting']) ? $_POST['collecting'] : ""), 'class="span4" id="collecting"'); ?> </div>
+</div>
+
+<div class="control-group">
+    <label class="control-label" for="date_of_collecting"><?php echo $this->lang->line("product_date_of_collecting"); ?></label>
+    <div class="controls"> <?php echo form_input('date_of_collecting', (isset($_POST['date_of_collecting']) ? $_POST['date_of_collecting'] : ""), 'class="span4 date" id="date_of_collecting"'); ?></div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="job_code"><?php echo $this->lang->line("product_job_code"); ?></label>
+  <div class="controls"> <?php echo form_input('job_code', (isset($_POST['job_code']) ? $_POST['job_code'] : ""), 'class="span4" id="job_code"'); ?> </div>
 </div>
         
 <div class="control-group">
@@ -152,13 +167,6 @@ $(document).ready(function(){
   <div class="controls"> <?php echo form_input('cf6', '', 'class="span4" id="cf6"');?>
   </div>
 </div> 
-
-<div class="control-group">
-<label class="control-label" for="note"><?php echo $this->lang->line("product_details_for_invoice"); ?></label>
-  <div class="controls">
-  <?php echo form_textarea('note', (isset($_POST['note']) ? $_POST['note'] : ''), 'class="input-block-level" id="note" style="margin-top: 10px; height: 100px;"');?> 
- </div>
-</div>
         
 <div class="control-group">
   <div class="controls"> <?php echo form_submit('submit', $this->lang->line("add_product"), 'class="btn btn-primary"');?> </div>

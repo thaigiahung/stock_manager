@@ -7,7 +7,7 @@
              $(document).ready(function() {
                 $('#fileData').dataTable( {
 					"aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
-                    "aaSorting": [[ 0, "desc" ]],
+                    "aaSorting": [[ 0, "asc" ]],
                     "iDisplayLength": <?php echo ROWS_PER_PAGE; ?>,
 					'bProcessing'    : true,
 					'bServerSide'    : true,
@@ -101,13 +101,13 @@
 	<table id="fileData" class="table table-bordered table-hover table-striped table-condensed" style="margin-bottom: 5px;">
 		<thead>
         <tr>
-			<th><?php echo $this->lang->line("product_code"); ?></th>
-            <th><?php echo $this->lang->line("product_name"); ?></th>
-			<th><?php echo $this->lang->line("product_unit"); ?></th>
-            <th><?php echo $this->lang->line("product_price"); ?></th>
-            <th><?php echo $this->lang->line("quantity"); ?></th>
-            <th><?php echo $this->lang->line("alert_quantity"); ?></th>
-            <th style="width:110px; text-align: center;"><?php echo $this->lang->line("actions"); ?></th>
+        	<th><?php echo $this->lang->line("product_id"); ?></th>
+			<th><?php echo $this->lang->line("product_description"); ?></th>
+			<th><?php echo $this->lang->line("product_tagname"); ?></th>
+			<th><?php echo $this->lang->line("product_location"); ?></th>
+			<th><?php echo $this->lang->line("product_construction"); ?></th>
+			<th><?php echo $this->lang->line("product_cert"); ?></th>
+            <th style="width:115px; text-align: center;"><?php echo $this->lang->line("actions"); ?></th>
 		</tr>
         </thead>
 		<tbody>
@@ -117,13 +117,13 @@
         </tbody>
         <tfoot>
         <tr>
-			<th>[<?php echo $this->lang->line("product_code"); ?>]</th>
-            <th>[<?php echo $this->lang->line("product_name"); ?>]</th>
-			<th>[<?php echo $this->lang->line("product_unit"); ?>]</th>
-            <th>[<?php echo $this->lang->line("product_price"); ?>]</th>
-            <th>[<?php echo $this->lang->line("quantity"); ?>]</th>
-            <th>[<?php echo $this->lang->line("alert_quantity"); ?>]</th>
-            <th style="width:110px; text-align: center;"><?php echo $this->lang->line("actions"); ?></th>
+			<th>[<?php echo $this->lang->line("product_id"); ?>]</th>
+        	<th>[<?php echo $this->lang->line("product_description"); ?>]</th>
+			<th>[<?php echo $this->lang->line("product_tagname"); ?>]</th>
+			<th>[<?php echo $this->lang->line("product_location"); ?>]</th>
+			<th>[<?php echo $this->lang->line("product_construction"); ?>]</th>
+			<th>[<?php echo $this->lang->line("product_cert"); ?>]</th>
+            <th style="width:115px; text-align: center;"><?php echo $this->lang->line("actions"); ?></th>
 		</tr>
         </tfoot>
 	</table>

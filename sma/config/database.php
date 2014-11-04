@@ -35,12 +35,15 @@
 */
 
 // The following values will probably need to be changed.
-$db['default']['username'] = "b14_15264799";
+/*$db['default']['username'] = "b14_15264799";
 $db['default']['password'] = "17092404";
-$db['default']['database'] = "b14_15264799_ecc";
+$db['default']['database'] = "b14_15264799_ecc";*/
+$db['default']['username'] = "root";
+$db['default']['password'] = "";
+$db['default']['database'] = "ecc";
 
 // The following values can probably stay the same.
-$db['default']['hostname'] = "sql312.byethost14.com";
+$db['default']['hostname'] = "localhost";
 $db['default']['dbdriver'] = "mysql";
 $db['default']['dbprefix'] = "";
 $db['default']['pconnect'] = TRUE;

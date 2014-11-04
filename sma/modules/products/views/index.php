@@ -7,14 +7,14 @@
              $(document).ready(function() {
                 $('#prData').dataTable( {
 					"aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
-                    "aaSorting": [[ 0, "desc" ]],
+                    "aaSorting": [[ 0, "asc" ]],
                     "iDisplayLength": <?php echo ROWS_PER_PAGE; ?>,
                     <?php if(BSTATESAVE) { echo '"bStateSave": true,'; } ?>
-			'bProcessing'    : true,
-			'bServerSide'    : true,
-			<?php $no_cost = array('salesman', 'viewer'); 
-                            if (!$this->ion_auth->in_group($no_cost)) { 
-			?>
+					'bProcessing'    : true,
+					'bServerSide'    : true,
+					<?php $no_cost = array('salesman', 'viewer'); 
+	                            if (!$this->ion_auth->in_group($no_cost)) { 
+					?>
                     'sAjaxSource'    : '<?php echo base_url(); ?>index.php?module=products&view=getdatatableajaxcost',
                         <?php } else { ?>
                     'sAjaxSource'    : '<?php echo base_url(); ?>index.php?module=products&view=getdatatableajax',
@@ -122,18 +122,14 @@
 	<table id="prData" class="table table-bordered table-hover table-striped table-condensed" style="margin-bottom: 5px;">
 		<thead>
         <tr>
-			<th><?php echo $this->lang->line("product_code"); ?></th>
-            <th><?php echo $this->lang->line("product_name"); ?></th>
-            <th><?php echo $this->lang->line("category"); ?></th>
-            <?php $no_cost = array('salesman', 'viewer'); 
-				  if (!$this->ion_auth->in_group($no_cost)) { 
-            echo "<th>".$this->lang->line("product_cost")."</th>";
-            } ?>
-            <th><?php echo $this->lang->line("product_price"); ?></th>
-            <th><?php echo $this->lang->line("quantity"); ?></th>
-            <th><?php echo $this->lang->line("product_unit"); ?></th>
-            <th><?php echo $this->lang->line("alert_quantity"); ?></th>
-            
+			<th><?php echo $this->lang->line("product_id"); ?></th>
+			<th><?php echo $this->lang->line("product_description"); ?></th>
+			<th><?php echo $this->lang->line("product_tagname"); ?></th>
+			<th><?php echo $this->lang->line("product_location"); ?></th>
+			<th><?php echo $this->lang->line("product_construction"); ?></th>
+			<th><?php echo $this->lang->line("product_warehouse"); ?></th>
+			<th><?php echo $this->lang->line("product_cert"); ?></th>
+			<th><?php echo $this->lang->line("product_status"); ?></th>            
             <th style="min-width:115px; text-align:center;"><?php echo $this->lang->line("actions"); ?></th> 
 		</tr>
         </thead>
@@ -147,18 +143,14 @@
         
         <tfoot>
         <tr>
-			<th>[<?php echo $this->lang->line("product_code"); ?>]</th>
-            <th>[<?php echo $this->lang->line("product_name"); ?>]</th>
-            <th>[<?php echo $this->lang->line("category"); ?>]</th>
-            <?php $no_cost = array('salesman', 'viewer'); 
-				  if (!$this->ion_auth->in_group($no_cost)) { 
-            echo "<th>[".$this->lang->line("product_cost")."]</th>";
-            } ?>
-            <th>[<?php echo $this->lang->line("product_price"); ?>]</th>
-            <th>[<?php echo $this->lang->line("quantity"); ?>]</th>
-            <th>[<?php echo $this->lang->line("product_unit"); ?>]</th>
-            <th>[<?php echo $this->lang->line("alert_quantity"); ?>]</th>
-            
+        	<th>[<?php echo $this->lang->line("product_id"); ?>]</th>
+        	<th>[<?php echo $this->lang->line("product_description"); ?>]</th>
+			<th>[<?php echo $this->lang->line("product_tagname"); ?>]</th>
+			<th>[<?php echo $this->lang->line("product_location"); ?>]</th>
+			<th>[<?php echo $this->lang->line("product_construction"); ?>]</th>
+			<th>[<?php echo $this->lang->line("product_warehouse"); ?>]</th>
+			<th>[<?php echo $this->lang->line("product_cert"); ?>]</th>
+			<th>[<?php echo $this->lang->line("product_status"); ?>]</th>            
             <th style="width:115px; text-align:center;"><?php echo $this->lang->line("actions"); ?></th> 
 		</tr>
         </tfoot>

@@ -144,57 +144,27 @@ class Products_model extends CI_Model
 
 	}
 	
-	public function addProduct($code, $name,  $photo, $data = array())
+	public function addProduct($data = array(),$warehouse_id)
 	{
-		
-		if($photo == NULL) {
-			// Product data
-			$productData = array(
-				'code'	     			=> $data['code'],
-				'name'   				=> $data['name'],
-				'category_id'   		=> $data['category_id'],
-				'subcategory_id'   		=> $data['subcategory_id'],
-				'unit' 					=> $data['unit'],
-				'size' 					=> $data['size'],
-				'cost'	     			=> $data['cost'],
-				'price'	     			=> $data['price'],
-				'alert_quantity'   		=> $data['alert_quantity'],
-				'tax_rate'   			=> $data['tax_rate'],
-				'track_quantity'   		=> $data['track_quantity'],
-				'cf1'   					=> $data['cf1'],
-				'cf2'   					=> $data['cf2'],
-				'cf3'   					=> $data['cf3'],
-				'cf4'   					=> $data['cf4'],
-				'cf5'   					=> $data['cf5'],
-				'cf6'   					=> $data['cf6'],
-                                'details'   					=> $data['details']
-			);
+		if($this->db->insert('products', $data)) {
+			$product_id = $this->db->insert_id();
+			$this->addProductToWarehouse($product_id,$warehouse_id);
+			return true;
 		} else {
-			// Product data
-			$productData = array(
-				'code'	     			=> $data['code'],
-				'name'   				=> $data['name'],
-				'category_id'   		=> $data['category_id'],
-				'subcategory_id'   		=> $data['subcategory_id'],
-				'unit' 					=> $data['unit'],
-				'size' 					=> $data['size'],
-				'cost'	     			=> $data['cost'],
-				'price'	     			=> $data['price'],
-				'alert_quantity'   		=> $data['alert_quantity'],
-				'tax_rate'   			=> $data['tax_rate'],
-				'track_quantity'   		=> $data['track_quantity'],
-				'cf1'   					=> $data['cf1'],
-				'cf2'   					=> $data['cf2'],
-				'cf3'   					=> $data['cf3'],
-				'cf4'   					=> $data['cf4'],
-				'cf5'   					=> $data['cf5'],
-				'cf6'   					=> $data['cf6'],
-                                'details'   					=> $data['details'],
-				'image'   				=> $photo
-			);
+			return false;
 		}
+	}
 
-		if($this->db->insert('products', $productData)) {
+	public function addProductToWarehouse($product_id, $warehouse_id, $quantity = 0)
+	{	
+		// Product data
+		$productData = array(
+			'product_id'	     		=> $product_id,
+			'warehouse_id'   			=> $warehouse_id,
+			'quantity' 					=> $quantity
+		);
+
+		if($this->db->insert('warehouses_products', $productData)) {
 			return true;
 		} else {
 			return false;

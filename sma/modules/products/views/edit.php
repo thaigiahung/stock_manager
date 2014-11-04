@@ -48,6 +48,11 @@ $(document).ready(function(){
 	<?php $attrib = array('class' => 'form-horizontal'); echo form_open_multipart("module=products&view=edit&id=".$id, $attrib); ?>
 
 <div class="control-group">
+  <label class="control-label" for="description"><?php echo $this->lang->line("product_description"); ?></label>
+  <div class="controls"> <?php echo form_input('description', $product->description, 'class="span4 tip" id="description" title="'.$this->lang->line("pr_code_tip").'" required="required" data-error="'.$this->lang->line("product_description").' '.$this->lang->line("is_required").'"'); ?> </div>
+</div>
+
+<div class="control-group">
   <label class="control-label" for="code"><?php echo $this->lang->line("product_code"); ?></label>
   <div class="controls"> <?php echo form_input('code', $product->code, 'class="span4 tip" id="code" title="'.$this->lang->line("pr_code_tip").'" required="required" data-error="'.$this->lang->line("product_code").' '.$this->lang->line("is_required").'"'); ?> </div>
 </div>

@@ -14,7 +14,8 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://www.hung.byethost14.com/sma';
+// $config['base_url']	= 'http://www.hung.byethost14.com/sma';
+$config['base_url']	= 'http://alpha-ecc.infory.vn/';
 
 /*
 |--------------------------------------------------------------------------
