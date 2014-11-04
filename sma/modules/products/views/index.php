@@ -37,21 +37,21 @@
 								{
 									"sExtends": "csv",
 									"sFileName": "<?php echo $this->lang->line("products"); ?>.csv",
-                   		 			"mColumns": [ 0, 1, 2, 3, 4, 5<?php $no_cost = array('salesman', 'viewer'); 
+                   		 			"mColumns": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15<?php $no_cost = array('salesman', 'viewer'); 
 							if (!$this->ion_auth->in_group($no_cost)) { echo ', 6'; } ?> ]
 								},
 								{
 									"sExtends": "pdf",
 									"sFileName": "<?php echo $this->lang->line("products"); ?>.pdf",
 									"sPdfOrientation": "landscape",
-                   		 			"mColumns": [ 0, 1, 2, 3, 4, 5<?php $no_cost = array('salesman', 'viewer'); 
+                   		 			"mColumns": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15<?php $no_cost = array('salesman', 'viewer'); 
 							if (!$this->ion_auth->in_group($no_cost)) { echo ', 6'; } ?> ]
 								},
 								"print"
 						]
 					},
 					"aoColumns": [ 
-					  null, null, null, null, null, null, null,
+					  null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
 					  <?php $no_cost = array('salesman', 'viewer'); 
 					  		if (!$this->ion_auth->in_group($no_cost)) { 
 					  
@@ -63,6 +63,14 @@
 					
                 } ).columnFilter({ aoColumns: [
 
+						{ type: "text", bRegex:true },
+						{ type: "text", bRegex:true },
+						{ type: "text", bRegex:true },
+						{ type: "text", bRegex:true },
+						{ type: "text", bRegex:true },
+						{ type: "text", bRegex:true },
+						{ type: "text", bRegex:true },
+						{ type: "text", bRegex:true },
 						{ type: "text", bRegex:true },
 						{ type: "text", bRegex:true },
 						{ type: "text", bRegex:true },
@@ -119,42 +127,61 @@
 
 	<p class="introtext"><?php echo $this->lang->line("list_results"); ?></p>
     
-	<table id="prData" class="table table-bordered table-hover table-striped table-condensed" style="margin-bottom: 5px;">
-		<thead>
-        <tr>
-			<th><?php echo $this->lang->line("product_id"); ?></th>
-			<th><?php echo $this->lang->line("product_description"); ?></th>
-			<th><?php echo $this->lang->line("product_tagname"); ?></th>
-			<th><?php echo $this->lang->line("product_location"); ?></th>
-			<th><?php echo $this->lang->line("product_construction"); ?></th>
-			<th><?php echo $this->lang->line("product_warehouse"); ?></th>
-			<th><?php echo $this->lang->line("product_cert"); ?></th>
-			<th><?php echo $this->lang->line("product_status"); ?></th>            
-            <th style="min-width:115px; text-align:center;"><?php echo $this->lang->line("actions"); ?></th> 
-		</tr>
-        </thead>
-		<tbody>
-	
-			<tr>
-            	<td colspan="9" class="dataTables_empty">Loading data from server</td>
+    <div>
+		<table id="prData" class="table table-bordered table-hover table-striped table-condensed" style="margin-bottom: 5px;">
+			<thead>
+	        <tr>
+				<th><?php echo $this->lang->line("product_id"); ?></th>
+				<th><?php echo $this->lang->line("product_description"); ?></th>
+				<th><?php echo $this->lang->line("product_tagname"); ?></th>
+				<th><?php echo $this->lang->line("product_location"); ?></th>
+				<th><?php echo $this->lang->line("product_construction"); ?></th>
+				<th><?php echo $this->lang->line("product_date_of_issuing"); ?></th>
+				<th><?php echo $this->lang->line("product_warehouse"); ?></th>
+				<th><?php echo $this->lang->line("product_date_of_storage"); ?></th>
+				<th><?php echo $this->lang->line("product_cert"); ?></th>
+				<th><?php echo $this->lang->line("product_date_of_testing"); ?></th>
+				<th><?php echo $this->lang->line("product_date_of_next_testing"); ?></th>
+				<th><?php echo $this->lang->line("product_status"); ?></th>     
+				<th><?php echo $this->lang->line("product_remark"); ?></th> 
+				<th><?php echo $this->lang->line("product_collecting"); ?></th>                
+				<th><?php echo $this->lang->line("product_date_of_collecting"); ?></th>     
+				<th><?php echo $this->lang->line("product_job_code"); ?></th>     
+	            <th style="min-width:115px; text-align:center;"><?php echo $this->lang->line("actions"); ?></th> 
 			</tr>
+	        </thead>
+			<tbody>
+		
+				<tr>
+	            	<td colspan="9" class="dataTables_empty">Loading data from server</td>
+				</tr>
 
-        </tbody>
-        
-        <tfoot>
-        <tr>
-        	<th>[<?php echo $this->lang->line("product_id"); ?>]</th>
-        	<th>[<?php echo $this->lang->line("product_description"); ?>]</th>
-			<th>[<?php echo $this->lang->line("product_tagname"); ?>]</th>
-			<th>[<?php echo $this->lang->line("product_location"); ?>]</th>
-			<th>[<?php echo $this->lang->line("product_construction"); ?>]</th>
-			<th>[<?php echo $this->lang->line("product_warehouse"); ?>]</th>
-			<th>[<?php echo $this->lang->line("product_cert"); ?>]</th>
-			<th>[<?php echo $this->lang->line("product_status"); ?>]</th>            
-            <th style="width:115px; text-align:center;"><?php echo $this->lang->line("actions"); ?></th> 
-		</tr>
-        </tfoot>
-	</table>
+	        </tbody>
+	        
+	        <tfoot>
+	        <tr>
+	        	<th>[<?php echo $this->lang->line("product_id"); ?>]</th>
+	        	<th>[<?php echo $this->lang->line("product_description"); ?>]</th>
+				<th>[<?php echo $this->lang->line("product_tagname"); ?>]</th>
+				<th>[<?php echo $this->lang->line("product_location"); ?>]</th>
+				<th>[<?php echo $this->lang->line("product_construction"); ?>]</th>
+				<th>[<?php echo $this->lang->line("product_date_of_issuing"); ?>]</th>
+				<th>[<?php echo $this->lang->line("product_warehouse"); ?>]</th>
+				<th>[<?php echo $this->lang->line("product_date_of_storage"); ?>]</th>
+				<th>[<?php echo $this->lang->line("product_cert"); ?>]</th>
+				<th>[<?php echo $this->lang->line("product_date_of_testing"); ?>]</th>
+				<th>[<?php echo $this->lang->line("product_date_of_next_testing"); ?>]</th>
+				<th>[<?php echo $this->lang->line("product_status"); ?>]</th>    
+				<th>[<?php echo $this->lang->line("product_remark"); ?>]</th>            
+				<th>[<?php echo $this->lang->line("product_collecting"); ?>]</th>    
+				<th>[<?php echo $this->lang->line("product_date_of_collecting"); ?>]</th>    
+				<th>[<?php echo $this->lang->line("product_job_code"); ?>]</th>    
+	            <th style="width:115px; text-align:center;"><?php echo $this->lang->line("actions"); ?></th> 
+			</tr>
+	        </tfoot>
+		</table>
+    </div>
+	
 	
 	<a href="<?php echo site_url('module=products&view=add');?>" class="btn btn-primary pull-left"><?php echo $this->lang->line("add_product"); ?></a> 
     <div class="btn-group dropup pull-left" style="margin-left:15px; margin-bottom:20px;">
