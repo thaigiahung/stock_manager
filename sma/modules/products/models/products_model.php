@@ -55,6 +55,18 @@ class Products_model extends CI_Model
 		  return FALSE;
 
 	}
+
+	public function getWarehouseByProductID($id) 
+	{		
+		$q = $this->db->get_where('warehouses_products', array('product_id' => $id), 1);
+		  if( $q->num_rows() > 0 )
+		  {
+			return $q->row();
+		  } 
+		
+		  return FALSE;
+
+	}
 	
 	public function getProductByCategoryID($id) 
 	{
@@ -157,6 +169,8 @@ class Products_model extends CI_Model
 
 	public function addProductToWarehouse($product_id, $warehouse_id, $quantity = 0)
 	{	
+		$this->db->delete('warehouses_products', array('product_id' => $product_id));
+
 		// Product data
 		$productData = array(
 			'product_id'	     		=> $product_id,
@@ -191,60 +205,11 @@ class Products_model extends CI_Model
 		}
 	}
 	
-	public function updateProduct($id, $photo, $data = array())
-	{
-		
-		
-		if($photo == NULL) {
-			// Product data
-			$productData = array(
-				'code'	     			=> $data['code'],
-				'name'   				=> $data['name'],
-				'category_id'   		=> $data['category_id'],
-				'subcategory_id'   		=> $data['subcategory_id'],
-				'unit' 					=> $data['unit'],
-				'size' 					=> $data['size'],
-				'cost'	     			=> $data['cost'],
-				'price'	     			=> $data['price'],
-				'alert_quantity'   		=> $data['alert_quantity'],
-				'tax_rate'   			=> $data['tax_rate'],
-				'track_quantity'   		=> $data['track_quantity'],
-				'cf1'   					=> $data['cf1'],
-				'cf2'   					=> $data['cf2'],
-				'cf3'   					=> $data['cf3'],
-				'cf4'   					=> $data['cf4'],
-				'cf5'   					=> $data['cf5'],
-				'cf6'   					=> $data['cf6'],
-                                'details'   					=> $data['details']
-			);
-		} else {
-			// Product data
-			$productData = array(
-				'code'	     			=> $data['code'],
-				'name'   				=> $data['name'],
-				'category_id'   		=> $data['category_id'],
-				'subcategory_id'   		=> $data['subcategory_id'],
-				'unit' 					=> $data['unit'],
-				'size' 					=> $data['size'],
-				'cost'	     			=> $data['cost'],
-				'price'	     			=> $data['price'],
-				'alert_quantity'   		=> $data['alert_quantity'],
-				'tax_rate'   			=> $data['tax_rate'],
-				'track_quantity'   		=> $data['track_quantity'],
-				'cf1'   					=> $data['cf1'],
-				'cf2'   					=> $data['cf2'],
-				'cf3'   					=> $data['cf3'],
-				'cf4'   					=> $data['cf4'],
-				'cf5'   					=> $data['cf5'],
-				'cf6'   					=> $data['cf6'],
-                                'details'   					=> $data['details'],
-				'image'   				=> $photo
-			);
-		}
-		
-		
-		$this->db->where('id', $id);
-		if($this->db->update('products', $productData)) {
+	public function updateProduct($product_id, $data = array(),$warehouse_id)
+	{		
+		$this->db->where('id', $product_id);
+		if($this->db->update('products', $data)) {
+			$this->addProductToWarehouse($product_id,$warehouse_id);
 			return true;
 		} else {
 			return false;

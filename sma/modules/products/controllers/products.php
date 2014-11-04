@@ -352,11 +352,21 @@ class Products extends MX_Controller {
    
 	/* ---------------------------------------------------------------------------------------------------------------------------------------------------------------- */
 	
-	public function changeDateFormat($date)
+	public function changeDateFormat($date, $type)
 	{
-		//Change date from dd/mm/yyyy -> yyyy-mm-dd
-		$arrDate = explode('/', $date);
-		return $arrDate[2].'-'.$arrDate[1].'-'.$arrDate[0];
+		
+		switch ($type) {
+			case 1: //Change date from dd/mm/yyyy -> yyyy-mm-dd
+				$arrDate = explode('/', $date);
+				$strDate = $arrDate[2].'-'.$arrDate[1].'-'.$arrDate[0];
+				break;
+			
+			default: //Change date from yyyy-mm-dd -> dd/mm/yyyy
+				$arrDate = explode('-', $date);
+				$strDate = $arrDate[2].'/'.$arrDate[1].'/'.$arrDate[0];
+				break;
+		}
+		return $strDate;		
 	}
 
 	function add()
@@ -389,15 +399,15 @@ class Products extends MX_Controller {
 				'tagname' => $this->input->post('tagname'),
 				'location_in_warehouse' => $this->input->post('location_in_warehouse'),
 				'construction' => $this->input->post('construction'),
-				'date_of_issuing' => $this->changeDateFormat($this->input->post('date_of_issuing')),
-				'date_of_storage' => $this->changeDateFormat($this->input->post('date_of_storage')),
+				'date_of_issuing' => $this->changeDateFormat($this->input->post('date_of_issuing'),1),
+				'date_of_storage' => $this->changeDateFormat($this->input->post('date_of_storage'),1),
 				'cert_no' => $this->input->post('cert_no'),
-				'date_of_testing' => $this->changeDateFormat($this->input->post('date_of_testing')),
-				'date_of_next_testing' => $this->changeDateFormat($this->input->post('date_of_next_testing')),
+				'date_of_testing' => $this->changeDateFormat($this->input->post('date_of_testing'),1),
+				'date_of_next_testing' => $this->changeDateFormat($this->input->post('date_of_next_testing'),1),
 				'status' => $this->input->post('status'),
 				'remark' => $this->input->post('remark'),
 				'collecting' => $this->input->post('collecting') === "" ? true : false,
-				'date_of_collecting' => $this->changeDateFormat($this->input->post('date_of_collecting')),
+				'date_of_collecting' => $this->changeDateFormat($this->input->post('date_of_collecting'),1),
 				'job_code' => $this->input->post('job_code'),
 				'cf1' => $this->input->post('cf1'),
 				'cf2' => $this->input->post('cf2'),
@@ -449,104 +459,49 @@ class Products extends MX_Controller {
 			$data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
 			redirect('module=products', 'refresh');
 		}
-		
+
+		$product = $this->products_model->getProductByID($id);
+		$old_tagname = $product->tagname;
+		if($this->input->post('tagname') != $old_tagname) 
+		{
+		   $is_unique =  '|is_unique[products.tagname]';
+		} 
+		else {
+		   $is_unique =  '';
+		}		
 
 		//validate form input
-		$this->form_validation->set_rules('code', $this->lang->line("product_code"), 'trim|min_length[2]|max_length[50]|required|xss_clean');
-		$pr_details = $this->products_model->getProductByID($id);
-			if ($this->input->post('code') != $pr_details->code) {
-				$this->form_validation->set_rules('code', $this->lang->line("product_code"), 'is_unique[products.code]');
-			}
-		$this->form_validation->set_rules('name', $this->lang->line("product_name"), 'required|xss_clean');
-		$this->form_validation->set_rules('category', $this->lang->line("cname"), 'required|xss_clean');
-		$this->form_validation->set_rules('subcategory', $this->lang->line("subcategory"), 'xss_clean');
-		$this->form_validation->set_rules('unit', $this->lang->line("product_unit"), 'required|xss_clean');
-		$this->form_validation->set_rules('cost', $this->lang->line("product_cost"), 'required|xss_clean');
-		$this->form_validation->set_rules('price', $this->lang->line("product_price"), 'required|xss_clean');
-		$this->form_validation->set_rules('alert_quantity', $this->lang->line("alert_quantity"), 'required|xss_clean');
-		if(TAX1) {
-			$this->form_validation->set_rules('tax_rate', $this->lang->line("tax_rate"), 'required|xss_clean');
-		} else {
-			$this->form_validation->set_rules('tax_rate', $this->lang->line("tax_rate"), 'xss_clean');
-		}
-		$this->form_validation->set_rules('image', $this->lang->line("product_image"), 'xss_clean');
-                $this->form_validation->set_rules('note', $this->lang->line("product_details_for_invoice"), 'xss_clean');
-		$this->form_validation->set_rules('cf1', $this->lang->line("pcf1"), 'xss_clean');
-		$this->form_validation->set_rules('cf2', $this->lang->line("pcf2"), 'xss_clean');
-		$this->form_validation->set_rules('cf2', $this->lang->line("pcf3"), 'xss_clean');
-		$this->form_validation->set_rules('cf4', $this->lang->line("pcf4"), 'xss_clean');
-		$this->form_validation->set_rules('cf5', $this->lang->line("pcf5"), 'xss_clean');
-		$this->form_validation->set_rules('cf6', $this->lang->line("pcf6"), 'xss_clean');
+		$this->form_validation->set_rules('tagname', $this->lang->line("product_tagname"), $is_unique.'|required|xss_clean');
+		$this->form_validation->set_rules('description', $this->lang->line("product_description"), 'required|xss_clean');
 		
 		if ($this->form_validation->run() == true)
 		{
-			$data = array('code' => $this->input->post('code'),
-				'name' => $this->input->post('name'),
-				'category_id' => $this->input->post('category'),
-				'subcategory_id' => $this->input->post('subcategory'),
-				'unit' => $this->input->post('unit'),
-				'size' => $this->input->post('size'),
-				'cost' => $this->input->post('cost'),
-				'price' => $this->input->post('price'),
-				'alert_quantity' => $this->input->post('alert_quantity'),
-				'tax_rate' => $this->input->post('tax_rate') ? $this->input->post('tax_rate') : NULL,
-				'track_quantity' => $this->input->post('track_quantity') ? $this->input->post('track_quantity') : '0',
+			$warehouse_id = $this->input->post('warehouse');
+			$data = array(
+				'description' => $this->input->post('description'),
+				'tagname' => $this->input->post('tagname'),
+				'location_in_warehouse' => $this->input->post('location_in_warehouse'),
+				'construction' => $this->input->post('construction'),
+				'date_of_issuing' => $this->changeDateFormat($this->input->post('date_of_issuing'),1),
+				'date_of_storage' => $this->changeDateFormat($this->input->post('date_of_storage'),1),
+				'cert_no' => $this->input->post('cert_no'),
+				'date_of_testing' => $this->changeDateFormat($this->input->post('date_of_testing'),1),
+				'date_of_next_testing' => $this->changeDateFormat($this->input->post('date_of_next_testing'),1),
+				'status' => $this->input->post('status'),
+				'remark' => $this->input->post('remark'),
+				'collecting' => $this->input->post('collecting') === "" ? true : false,
+				'date_of_collecting' => $this->changeDateFormat($this->input->post('date_of_collecting'),1),
+				'job_code' => $this->input->post('job_code'),
 				'cf1' => $this->input->post('cf1'),
 				'cf2' => $this->input->post('cf2'),
 				'cf3' => $this->input->post('cf3'),
 				'cf4' => $this->input->post('cf4'),
 				'cf5' => $this->input->post('cf5'),
-				'cf6' => $this->input->post('cf6'),
-                                'details' => $this->input->post('note')
-			);
-			
-		if($_FILES['userfile']['size'] > 0){
-				
-		$this->load->library('upload_photo');
+				'cf6' => $this->input->post('cf6')
+			);		
+		}			 
 		
- 		$config['upload_path'] = 'assets/uploads/'; 
-		$config['allowed_types'] = 'gif|jpg|png'; 
-		$config['max_size'] = '500';
-		$config['max_width'] = '800';
-		$config['max_height'] = '800';
-		$config['overwrite'] = FALSE; 
-		
- 			$this->upload_photo->initialize($config);
-			
-			if( ! $this->upload_photo->do_upload()){
-			
- 				$error = $this->upload_photo->display_errors();
-				$this->session->set_flashdata('message', $error);
-				redirect("module=products&view=edit&id=".$id, 'refresh');
-			} 
-		
- 		$photo = $this->upload_photo->file_name;
-		
-		$this->load->helper('file');
-		$this->load->library('image_lib');
-		$config['image_library'] = 'gd2';
-		$config['source_image'] = 'assets/uploads/'.$photo;
-		$config['new_image'] = 'assets/uploads/thumbs/'.$photo;
-		$config['maintain_ratio'] = TRUE;
-		$config['width'] = 76;
-		$config['height'] = 76;
-		
-		$this->image_lib->clear();
-                $this->image_lib->initialize($config);
-		
-		if ( ! $this->image_lib->resize())
-		{
-			echo $this->image_lib->display_errors();
-			
-		}
-		
-		} else {
-			$photo = NULL;
-		}
-		
-		}
-		
-		if ( $this->form_validation->run() == true && $this->products_model->updateProduct($id, $photo, $data))
+		if ( $this->form_validation->run() == true && $this->products_model->updateProduct($id, $data,$warehouse_id))
 		{  
 			$this->session->set_flashdata('success_message', $this->lang->line("product_updated"));
 			redirect("module=products", 'refresh');
@@ -555,18 +510,21 @@ class Products extends MX_Controller {
 		{  
 			$data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
 
-		$data['warehouses'] = $this->products_model->getAllWarehouses();	
-		$product_details = $this->products_model->getProductByID($id);
-		$data['categories'] = $this->products_model->getAllCategories();
-		$data['tax_rates'] = $this->products_model->getAllTaxRates();
-		$data['subcategories'] = $this->products_model->getSubCategoriesByCategoryID($product_details->category_id);
-		$meta['page_title'] = $this->lang->line("update_product");
-		$data['id'] = $id;
-		$data['product'] = $product_details;
-		$data['page_title'] = $this->lang->line("update_product");
-		$this->load->view('commons/header', $meta);
-		$this->load->view('edit', $data);
-		$this->load->view('commons/footer');
+			$data['warehouses'] = $this->products_model->getAllWarehouses();	
+			$data['selected_warehouse'] = $this->products_model->getWarehouseByProductID($id);
+			$product_details = $this->products_model->getProductByID($id);
+			$product_details->date_of_issuing = $this->changeDateFormat($product_details->date_of_issuing,2);
+			$product_details->date_of_storage = $this->changeDateFormat($product_details->date_of_storage,2);
+			$product_details->date_of_testing = $this->changeDateFormat($product_details->date_of_testing,2);
+			$product_details->date_of_next_testing = $this->changeDateFormat($product_details->date_of_next_testing,2);
+			$product_details->date_of_collecting = $this->changeDateFormat($product_details->date_of_collecting,2);
+			$meta['page_title'] = $this->lang->line("update_product");
+			$data['id'] = $id;
+			$data['product'] = $product_details;
+			$data['page_title'] = $this->lang->line("update_product");
+			$this->load->view('commons/header', $meta);
+			$this->load->view('edit', $data);
+			$this->load->view('commons/footer');
 		
 		}
 	}
