@@ -275,7 +275,7 @@ class Products extends MX_Controller {
  
 	   $this->load->library('datatables');
 	   $this->datatables
-			->select("products.id, products.description, products.tagname, products.location_in_warehouse, products.construction, products.cert_no", FALSE)
+			->select("products.id, products.description, products.tagname, products.location_in_warehouse, products.construction, products.date_of_issuing, products.date_of_storage, products.cert_no, products.date_of_testing, products.date_of_next_testing, products.status, products.remark, products.collecting, products.date_of_collecting, products.job_code", FALSE)
 			->from('warehouses_products')
 			->join('products', 'products.id=warehouses_products.product_id', 'left')
 			->where('warehouses_products.warehouse_id', $warehouse_id)

@@ -42,10 +42,19 @@
 						]
 					},
 					"aoColumns": [ 
-					  null, null, null, null,  null, null,
+					  null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
 					  { "bSortable": false }
 					]
                 } ).columnFilter({ aoColumns: [
+						{ type: "text", bRegex:true },
+						{ type: "text", bRegex:true },
+						{ type: "text", bRegex:true },
+						{ type: "text", bRegex:true },
+						{ type: "text", bRegex:true },
+						{ type: "text", bRegex:true },
+						{ type: "text", bRegex:true },
+						{ type: "text", bRegex:true },
+						{ type: "text", bRegex:true },
 						{ type: "text", bRegex:true },
 						{ type: "text", bRegex:true },
 						{ type: "text", bRegex:true },
@@ -106,7 +115,16 @@
 			<th><?php echo $this->lang->line("product_tagname"); ?></th>
 			<th><?php echo $this->lang->line("product_location"); ?></th>
 			<th><?php echo $this->lang->line("product_construction"); ?></th>
+			<th><?php echo $this->lang->line("product_date_of_issuing"); ?></th>
+			<th><?php echo $this->lang->line("product_date_of_storage"); ?></th>
 			<th><?php echo $this->lang->line("product_cert"); ?></th>
+			<th><?php echo $this->lang->line("product_date_of_testing"); ?></th>
+			<th><?php echo $this->lang->line("product_date_of_next_testing"); ?></th>
+			<th><?php echo $this->lang->line("product_status"); ?></th>
+			<th><?php echo $this->lang->line("product_remark"); ?></th>
+			<th><?php echo $this->lang->line("product_collecting"); ?></th>
+			<th><?php echo $this->lang->line("product_date_of_collecting"); ?></th>
+			<th><?php echo $this->lang->line("product_job_code"); ?></th>
             <th style="width:115px; text-align: center;"><?php echo $this->lang->line("actions"); ?></th>
 		</tr>
         </thead>
@@ -122,7 +140,16 @@
 			<th>[<?php echo $this->lang->line("product_tagname"); ?>]</th>
 			<th>[<?php echo $this->lang->line("product_location"); ?>]</th>
 			<th>[<?php echo $this->lang->line("product_construction"); ?>]</th>
+			<th>[<?php echo $this->lang->line("product_date_of_issuing"); ?>]</th>
+			<th>[<?php echo $this->lang->line("product_date_of_storage"); ?>]</th>
 			<th>[<?php echo $this->lang->line("product_cert"); ?>]</th>
+			<th>[<?php echo $this->lang->line("product_date_of_testing"); ?>]</th>
+			<th>[<?php echo $this->lang->line("product_date_of_next_testing"); ?>]</th>
+			<th>[<?php echo $this->lang->line("product_status"); ?>]</th>
+			<th>[<?php echo $this->lang->line("product_remark"); ?>]</th>
+			<th>[<?php echo $this->lang->line("product_collecting"); ?>]</th>
+			<th>[<?php echo $this->lang->line("product_date_of_collecting"); ?>]</th>
+			<th>[<?php echo $this->lang->line("product_job_code"); ?>]</th>
             <th style="width:115px; text-align: center;"><?php echo $this->lang->line("actions"); ?></th>
 		</tr>
         </tfoot>
