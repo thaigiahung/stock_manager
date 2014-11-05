@@ -51,39 +51,66 @@
 <table class="table table-bordered table-hover table-striped table-condensed">
   <tbody>
     <tr>
-      <td><?php echo $this->lang->line("product_code"); ?></td>
-      <td><?php echo $product->code; ?></td>
+      <td><?php echo $this->lang->line("product_id"); ?></td>
+      <td><?php echo $product->id; ?></td>
     </tr>
     <tr>
-      <td><?php echo $this->lang->line("product_name"); ?></td>
-      <td><?php echo $product->name; ?></td>
+      <td><?php echo $this->lang->line("product_tagname"); ?></td>
+      <td><?php echo $product->tagname; ?></td>
     </tr>
     <tr>
-      <td><?php echo $this->lang->line("category"); ?></td>
-      <td><?php echo $category->name; ?></td>
+      <td><?php echo $this->lang->line("product_description"); ?></td>
+      <td><?php echo $product->description; ?></td>
     </tr>
     <tr>
-      <td><?php echo $this->lang->line("product_unit"); ?></td>
-      <td><?php echo $product->unit; ?></td>
+      <td><?php echo $this->lang->line("product_location"); ?></td>
+      <td><?php echo $product->location_in_warehouse; ?></td>
     </tr>
     <tr>
-      <td><?php echo $this->lang->line("product_size"); ?></td>
-      <td><?php echo $product->size; ?></td>
-    </tr>
-    <?php $no_cost = array('salesman', 'viewer'); if (!$this->ion_auth->in_group($no_cost)) { ?>
-    <tr>
-      <td><?php echo $this->lang->line("product_cost"); ?></td>
-      <td><?php echo $product->cost; ?></td>
-    </tr>
-    <?php } ?>
-    <tr>
-      <td><?php echo $this->lang->line("product_price"); ?></td>
-      <td><?php echo $product->price; ?></td>
+      <td><?php echo $this->lang->line("product_construction"); ?></td>
+      <td><?php echo $product->construction; ?></td>
     </tr>
     <tr>
-      <td><?php echo $this->lang->line("alert_quantity"); ?></td>
-      <td><?php echo $product->alert_quantity; ?></td>
+      <td><?php echo $this->lang->line("product_date_of_issuing"); ?></td>
+      <td><?php echo $product->date_of_issuing; ?></td>
     </tr>
+    <tr>
+      <td><?php echo $this->lang->line("product_warehouse"); ?></td>
+      <td><?php echo $warehouse->name; ?></td>
+    </tr>
+    <tr>
+      <td><?php echo $this->lang->line("product_cert"); ?></td>
+      <td><?php echo $product->cert_no; ?></td>
+    </tr>
+    <tr>
+      <td><?php echo $this->lang->line("product_date_of_testing"); ?></td>
+      <td><?php echo $product->date_of_testing; ?></td>
+    </tr>
+    <tr>
+      <td><?php echo $this->lang->line("product_date_of_next_testing"); ?></td>
+      <td><?php echo $product->date_of_next_testing; ?></td>
+    </tr>
+    <tr>
+      <td><?php echo $this->lang->line("product_status"); ?></td>
+      <td><?php echo $product->status; ?></td>
+    </tr>
+    <tr>
+      <td><?php echo $this->lang->line("product_remark"); ?></td>
+      <td><?php echo $product->remark; ?></td>
+    </tr>
+    <tr>
+      <td><?php echo $this->lang->line("product_collecting"); ?></td>
+      <td><?php echo $product->collecting; ?></td>
+    </tr>
+    <tr>
+      <td><?php echo $this->lang->line("product_date_of_next_testing"); ?></td>
+      <td><?php echo $product->date_of_collecting; ?></td>
+    </tr>
+    <tr>
+      <td><?php echo $this->lang->line("product_job_code"); ?></td>
+      <td><?php echo $product->job_code; ?></td>
+    </tr>
+    
   </tbody>
 </table>
 </body>

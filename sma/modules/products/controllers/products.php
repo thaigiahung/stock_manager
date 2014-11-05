@@ -938,10 +938,11 @@ class Products extends MX_Controller {
 		$data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
 		
 		$pr_details = $this->products_model->getProductByID($id);
-		$category_id = $pr_details->category_id;
-		$data['barcode'] = "<img src='".$this->config->base_url()."index.php?module=products&view=gen_barcode&code=".$pr_details->code."' alt='".$pr_details->code."' />";	
+		$warehouse_product = $this->products_model->getWarehouseByProductID($id);
+		$warehouse = $this->products_model->getWarehouseByID($warehouse_product->warehouse_id);
+		$data['barcode'] = "<img src='".$this->config->base_url()."index.php?module=products&view=gen_barcode&code=".$pr_details->tagname."' alt='".$pr_details->tagname."' />";	
 		$data['product'] = $pr_details;
-		$data['category'] = $this->products_model->getCategoryByID($category_id);
+		$data['warehouse'] = $warehouse;
 		$meta['page_title'] = $this->lang->line("product_details");
 		$data['page_title'] = $this->lang->line("product_details");
 		$this->load->view('details', $data);
