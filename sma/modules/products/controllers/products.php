@@ -56,7 +56,7 @@ class Products extends MX_Controller {
  
 	   $this->load->library('datatables');
 	   $this->datatables
-			->select("categories.name as cat_name,subcategories.name as sub_cat,products.id as productid, products.description, products.tagname, products.location_in_warehouse, products.construction, products.date_of_issuing, products.date_of_storage, warehouses.name, products.cert_no, products.date_of_testing, products.date_of_next_testing, products.status, products.remark, products.collecting, products.date_of_collecting, products.job_code", FALSE)
+			->select("categories.name as cat_name,subcategories.name as sub_cat, categories.code as cat_code, subcategories.code as sub_cat_code,products.id as productid, products.description, products.tagname, products.location_in_warehouse, products.construction, products.date_of_issuing, products.date_of_storage, warehouses.name, products.cert_no, products.date_of_testing, products.date_of_next_testing, products.status, products.remark, products.collecting, products.date_of_collecting, products.job_code", FALSE)
 			->from('products')
 			->join('categories', 'products.category_id=categories.id', 'left')
 			->join('subcategories', 'products.subcategory_id=subcategories.id', 'left')
@@ -75,7 +75,7 @@ class Products extends MX_Controller {
  
 	   $this->load->library('datatables');
 	   $this->datatables
-			->select("categories.name as cat_name,subcategories.name as sub_cat,products.id as productid, products.description, products.tagname, products.location_in_warehouse, products.construction, products.date_of_issuing, warehouses.name, products.date_of_storage, products.cert_no, products.date_of_testing, products.date_of_next_testing, products.status, products.remark, products.collecting, products.date_of_collecting, products.job_code", FALSE)
+			->select("categories.name as cat_name,subcategories.name as sub_cat, categories.code as cat_code, subcategories.code as sub_cat_code,products.id as productid, products.description, products.tagname, products.location_in_warehouse, products.construction, products.date_of_issuing, warehouses.name, products.date_of_storage, products.cert_no, products.date_of_testing, products.date_of_next_testing, products.status, products.remark, products.collecting, products.date_of_collecting, products.job_code", FALSE)
 			->from('products')
 			->join('categories', 'products.category_id=categories.id', 'left')
 			->join('subcategories', 'products.subcategory_id=subcategories.id', 'left')

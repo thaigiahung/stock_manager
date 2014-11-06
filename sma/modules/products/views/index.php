@@ -35,7 +35,7 @@
 					  });
 					},	
 					"columnDefs": [
-					            { "visible": false, "targets": [0,1] }
+					            { "visible": false, "targets": [0,1,2,3] }
 			        ],
 					"drawCallback": function ( settings ) {
 			            var api = this.api();
@@ -45,26 +45,33 @@
 			 
 			            api.column(0, {page:'current'} ).data().each( function ( group, i ) {
 			                if ( last !== group ) {
-			                    $(rows).eq( i ).before(
-			                        '<tr class="group"><td colspan="17" style="background-color: #6699FF; color: black;">'+group+'</td></tr>'                                   
-			                    );	
+			                	var cat_code = "";
+			                	api.column(2, {page:'current'} ).data().each( function ( group2, i2 ) {
+			                		cat_code = group2;			                		
+			                	});
+			                	$(rows).eq( i ).before(
+		                		    '<tr class="group"><td style="background-color: #6699FF; color: black;">' + cat_code +'</td><td colspan="16" style="background-color: #6699FF; color: black;">'+group+'</td></tr>'
+		                		);
 			                    last = group;
 			                }
 			            } );
 
 			            api.column(1, {page:'current'} ).data().each( function ( group1, i1 ) {
 			                if ( last_sub_cat !== group1 ) {
+			                	var sub_cat_code = "";
+			                	api.column(3, {page:'current'} ).data().each( function ( group3, i3 ) {
+			                		sub_cat_code = group3;			                		
+			                	});
 			                    $(rows).eq( i1 ).before(
-			                        '<tr class="sub-group"><td colspan="17" style="background-color: #6699FF; color: black;">'+group1+'</td></tr>'
+			                        '<tr class="sub-group"><td style="background-color: #CCCCCC; color: black;">' + sub_cat_code +'</td><td colspan="16" style="background-color: #CCCCCC; color: black;">'+group1+'</td></tr>'
 			                    );
 			                    last_sub_cat = group1;
 			                }
 			            } );
 
-		                $('tbody').find('.sub-group').each(function (i,v) {
-		                    var rowCount = $(this).nextUntil('.sub-group, .group').length;
-		                    $(this).find('td:first').append($('<span />', { 'class': 'rowCount-grid' }).append($('<b />', { 'text': rowCount })));
-		                             
+		                $('tbody').find('.sub-group').each(function (i,v) {	
+		                    var rowCount = $(this).nextUntil('.sub-group, .group').length;		                    
+		                    $(this).find('td:last').append($('<span />', { 'class': 'rowCount-grid' }).append($('<b />', { 'text': ' (Sub-total: ' + rowCount +')' })));		                             
 		                });
 			        },
 					"oTableTools": {
@@ -75,21 +82,21 @@
 									"sExtends": "csv",
 									"sCharSet": "utf16le",
 									"sFileName": "<?php echo $this->lang->line("products"); ?>.csv",
-                   		 			"mColumns": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15<?php $no_cost = array('salesman', 'viewer'); 
+                   		 			"mColumns": [ 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19<?php $no_cost = array('salesman', 'viewer'); 
 							if (!$this->ion_auth->in_group($no_cost)) { echo ', 6'; } ?> ]
 								},
 								{
 									"sExtends": "pdf",
 									"sFileName": "<?php echo $this->lang->line("products"); ?>.pdf",
 									"sPdfOrientation": "landscape",
-                   		 			"mColumns": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15<?php $no_cost = array('salesman', 'viewer'); 
+                   		 			"mColumns": [ 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19<?php $no_cost = array('salesman', 'viewer'); 
 							if (!$this->ion_auth->in_group($no_cost)) { echo ', 6'; } ?> ]
 								},
 								"print"
 						]
 					},
 					"aoColumns": [ 
-					  null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
+					  null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
 					  <?php $no_cost = array('salesman', 'viewer'); 
 					  		if (!$this->ion_auth->in_group($no_cost)) { 
 					  
@@ -100,6 +107,8 @@
 					]
 					
                 } ).columnFilter({ aoColumns: [
+						{ type: "text", bRegex:true },
+						{ type: "text", bRegex:true },
 						{ type: "text", bRegex:true },
 						{ type: "text", bRegex:true },
 						{ type: "text", bRegex:true },
@@ -172,6 +181,8 @@
 		        <tr>
 					<th style="background-color: #75A319;color: black;" rowspan="2"><?php echo $this->lang->line("category"); ?></th>
 					<th style="background-color: #75A319;color: black;" rowspan="2"><?php echo $this->lang->line("subcategories"); ?></th>
+					<th style="background-color: #75A319;color: black;" rowspan="2"><?php echo $this->lang->line("category_code"); ?></th>
+					<th style="background-color: #75A319;color: black;" rowspan="2"><?php echo $this->lang->line("subcategory_code"); ?></th>
 					<th style="background-color: #75A319;color: black;" rowspan="2"><?php echo $this->lang->line("product_id"); ?></th>
 					<th style="background-color: #75A319;color: black;" rowspan="2"><?php echo $this->lang->line("product_description"); ?></th>
 					<th style="background-color: #75A319;color: black;" rowspan="2"><?php echo $this->lang->line("product_tagname"); ?></th>
@@ -207,6 +218,8 @@
 	        <tr>
 	        	<th>[<?php echo $this->lang->line("category"); ?>]</th>
 	        	<th>[<?php echo $this->lang->line("subcategories"); ?>]</th>
+	        	<th>[<?php echo $this->lang->line("category_code"); ?>]</th>
+	        	<th>[<?php echo $this->lang->line("subcategory_code"); ?>]</th>
 	        	<th>[<?php echo $this->lang->line("product_id"); ?>]</th>
 	        	<th>[<?php echo $this->lang->line("product_description"); ?>]</th>
 				<th>[<?php echo $this->lang->line("product_tagname"); ?>]</th>
