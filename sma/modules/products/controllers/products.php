@@ -398,6 +398,8 @@ class Products extends MX_Controller {
 				'description' => $this->input->post('description'),
 				'tagname' => $this->input->post('tagname'),
 				'location_in_warehouse' => $this->input->post('location_in_warehouse'),
+				'category_id' => $this->input->post('category'),
+				'subcategory_id' => $this->input->post('subcategory'),
 				'construction' => $this->input->post('construction'),
 				'date_of_issuing' => $this->changeDateFormat($this->input->post('date_of_issuing'),1),
 				'date_of_storage' => $this->changeDateFormat($this->input->post('date_of_storage'),1),
@@ -439,6 +441,7 @@ class Products extends MX_Controller {
 			);
 
 			$data['warehouses'] = $this->products_model->getAllWarehouses();
+			$data['categories'] = $this->products_model->getAllCategories();
 			$meta['page_title'] = $this->lang->line("add_product");
 			$data['page_title'] = $this->lang->line("add_product");
 			$this->load->view('commons/header', $meta);
@@ -481,6 +484,8 @@ class Products extends MX_Controller {
 				'description' => $this->input->post('description'),
 				'tagname' => $this->input->post('tagname'),
 				'location_in_warehouse' => $this->input->post('location_in_warehouse'),
+				'category_id' => $this->input->post('category'),
+				'subcategory_id' => $this->input->post('subcategory'),
 				'construction' => $this->input->post('construction'),
 				'date_of_issuing' => $this->changeDateFormat($this->input->post('date_of_issuing'),1),
 				'date_of_storage' => $this->changeDateFormat($this->input->post('date_of_storage'),1),
@@ -521,6 +526,8 @@ class Products extends MX_Controller {
 			$meta['page_title'] = $this->lang->line("update_product");
 			$data['id'] = $id;
 			$data['product'] = $product_details;
+			$data['categories'] = $this->products_model->getAllCategories();
+			$data['subcategories'] = $this->products_model->getSubCategoriesByCategoryID($product_details->category_id);
 			$data['page_title'] = $this->lang->line("update_product");
 			$this->load->view('commons/header', $meta);
 			$this->load->view('edit', $data);
@@ -959,7 +966,7 @@ class Products extends MX_Controller {
 				foreach($rows as $category){
 					$ct[$category->id] = $category->name;
 				}
-				$data = form_dropdown('subcategory', $ct, '', 'class="span4" id="subcategory" data-placeholder="'.$this->lang->line("select")." ".$this->lang->line("subcategory").'"');
+				$data = form_dropdown('subcategory', $ct, '', 'class="span4" id="subcategory" data-placeholder="'.$this->lang->line("select")." ".$this->lang->line("subcategory").'" required="required"');
 		} else { 
 			$data = "";
 		}

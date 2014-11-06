@@ -6,13 +6,7 @@
 <script src="<?php echo $this->config->base_url(); ?>assets/js/jquery-ui.js"></script>
 <script src="<?php echo $this->config->base_url(); ?>assets/js/validation.js"></script>
 <script type="text/javascript">
-$(document).ready(function(){
-  $(".date").datepicker({
-      format: "<?php echo JS_DATE; ?>",
-      autoclose: true
-  });
-  $(".date").datepicker("setDate");
-
+$(document).ready(function(){ 
 	$('form').form();
 		$('#category').change(function() {
 			var v = $(this).val();
@@ -43,6 +37,12 @@ $(document).ready(function(){
 					$("form select").chosen({no_results_text: "No results matched", disable_search_threshold: 5, allow_single_deselect:true });
 					$('#loading').hide();
 		});
+
+    $(".date").datepicker({
+        format: "<?php echo JS_DATE; ?>",
+        autoclose: true
+    });
+    $(".date").datepicker("setDate");
 	});
 
 </script>
@@ -90,6 +90,26 @@ $(document).ready(function(){
             echo form_dropdown('warehouse', $wh, $selected_warehouse->warehouse_id, 'id="warehouse_s" data-placeholder="' . $this->lang->line("select") . ' ' . $this->lang->line("warehouse") . '" required="required" data-error="' . $this->lang->line("warehouse") . ' ' . $this->lang->line("is_required") . '"');
         ?> 
     </div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="category"><?php echo $this->lang->line("category"); ?></label>
+  <div class="controls">  <?php 
+    $cat[''] = "";
+      foreach($categories as $category) {
+        $cat[$category->id] = $category->name;
+    }
+    echo form_dropdown('category', $cat, $product->category_id, 'class="tip chzn-select span4" id="category" data-placeholder="'.$this->lang->line("select")." ".$this->lang->line("category").'" title="'.$this->lang->line("pr_category_tip").'" required="required" data-error="'.$this->lang->line("category").' '.$this->lang->line("is_required").'"'); ?> </div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="subcategory"><?php echo $this->lang->line("subcategory"); ?></label>
+  <div class="controls" id="subcat_data"> <?php 
+      $sct[""] = '';
+      foreach($subcategories as $subcategory) {
+        $sct[$subcategory->id] = $subcategory->name;
+    }
+      echo form_dropdown('subcategory', $sct, $product->subcategory_id, 'class="span4" id="subcategory" required="required" data-placeholder="'.$this->lang->line("select_category_to_load").'"');  ?> </div>
 </div>
 
 <div class="control-group">

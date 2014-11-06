@@ -33,9 +33,11 @@
 					},	
 					"oTableTools": {
 						"sSwfPath": "assets/media/swf/copy_csv_xls_pdf.swf",
+						"sCharSet": "utf-8",
 						"aButtons": [
 								{
 									"sExtends": "csv",
+									"sCharSet": "utf16le",
 									"sFileName": "<?php echo $this->lang->line("products"); ?>.csv",
                    		 			"mColumns": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15<?php $no_cost = array('salesman', 'viewer'); 
 							if (!$this->ion_auth->in_group($no_cost)) { echo ', 6'; } ?> ]
@@ -130,25 +132,29 @@
     <div>
 		<table id="prData" class="table table-bordered table-hover table-striped table-condensed" style="margin-bottom: 5px;">
 			<thead>
-	        <tr>
-				<th><?php echo $this->lang->line("product_id"); ?></th>
-				<th><?php echo $this->lang->line("product_description"); ?></th>
-				<th><?php echo $this->lang->line("product_tagname"); ?></th>
-				<th><?php echo $this->lang->line("product_location"); ?></th>
-				<th><?php echo $this->lang->line("product_construction"); ?></th>
-				<th><?php echo $this->lang->line("product_date_of_issuing"); ?></th>
-				<th><?php echo $this->lang->line("product_warehouse"); ?></th>
-				<th><?php echo $this->lang->line("product_date_of_storage"); ?></th>
-				<th><?php echo $this->lang->line("product_cert"); ?></th>
-				<th><?php echo $this->lang->line("product_date_of_testing"); ?></th>
-				<th><?php echo $this->lang->line("product_date_of_next_testing"); ?></th>
-				<th><?php echo $this->lang->line("product_status"); ?></th>     
-				<th><?php echo $this->lang->line("product_remark"); ?></th> 
-				<th><?php echo $this->lang->line("product_collecting"); ?></th>                
-				<th><?php echo $this->lang->line("product_date_of_collecting"); ?></th>     
-				<th><?php echo $this->lang->line("product_job_code"); ?></th>     
-	            <th style="min-width:115px; text-align:center;"><?php echo $this->lang->line("actions"); ?></th> 
-			</tr>
+		        <tr>
+					<th style="background-color: #75A319;color: black;" rowspan="2"><?php echo $this->lang->line("product_id"); ?></th>
+					<th style="background-color: #75A319;color: black;" rowspan="2"><?php echo $this->lang->line("product_description"); ?></th>
+					<th style="background-color: #75A319;color: black;" rowspan="2"><?php echo $this->lang->line("product_tagname"); ?></th>
+					<th style="background-color: #75A319;color: black;" rowspan="2"><?php echo $this->lang->line("product_location"); ?></th>
+					<th style="background-color: #75A319;color: black;" colspan="4"><?php echo $this->lang->line("product_where_now"); ?></th>
+					<th style="background-color: #75A319;color: black;" rowspan="2"><?php echo $this->lang->line("product_cert"); ?></th>
+					<th style="background-color: #75A319;color: black;" rowspan="2"><?php echo $this->lang->line("product_date_of_testing"); ?></th>
+					<th style="background-color: #75A319;color: black;" rowspan="2"><?php echo $this->lang->line("product_date_of_next_testing"); ?></th>
+					<th style="background-color: #75A319;color: black;" rowspan="2"><?php echo $this->lang->line("product_status"); ?></th>     
+					<th style="background-color: #75A319;color: black;" rowspan="2"><?php echo $this->lang->line("product_remark"); ?></th> 
+					<th style="background-color: #3399FF;color: black;" colspan="3"><?php echo $this->lang->line("product_cargo_manifest"); ?></th>
+		            <th rowspan="2" style="min-width:115px; text-align:center;"><?php echo $this->lang->line("actions"); ?></th> 
+				</tr>
+		        <tr>					
+					<th style="background-color: #75A319;color: black;"><?php echo $this->lang->line("product_construction"); ?></th>
+					<th style="background-color: #75A319;color: black;"><?php echo $this->lang->line("product_date_of_issuing"); ?></th>
+					<th style="background-color: #75A319;color: black;"><?php echo $this->lang->line("product_warehouse"); ?></th>
+					<th style="background-color: #75A319;color: black;"><?php echo $this->lang->line("product_date_of_storage"); ?></th>
+					<th style="background-color: #3399FF;color: black;"><?php echo $this->lang->line("product_collecting"); ?></th>                
+					<th style="background-color: #3399FF;color: black;"><?php echo $this->lang->line("product_date_of_collecting"); ?></th>     
+					<th style="background-color: #3399FF;color: black;"><?php echo $this->lang->line("product_job_code"); ?></th>
+				</tr>
 	        </thead>
 			<tbody>
 		

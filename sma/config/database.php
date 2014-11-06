@@ -44,6 +44,7 @@ $db['default']['database'] = "ecc";
 
 // The following values can probably stay the same.
 $db['default']['hostname'] = "localhost";
+// $db['default']['hostname'] = "sql312.byethost14.com";
 $db['default']['dbdriver'] = "mysql";
 $db['default']['dbprefix'] = "";
 $db['default']['pconnect'] = TRUE;
