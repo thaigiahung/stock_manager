@@ -11,6 +11,7 @@
                 $('#prData').dataTable( {                	
 					"aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
                     "aaSorting": [[ 0, "asc" ]],
+                    "bFilter": false,
                     "iDisplayLength": <?php echo ROWS_PER_PAGE; ?>,                    
                     <?php if(BSTATESAVE) { echo '"bStateSave": true,'; } ?>
 					'bProcessing'    : true,
@@ -33,9 +34,41 @@
 						'data'    : aoData,
 						'success' : fnCallback
 					  });
-					},	
+					},		
+					/*"sDom": 'T<"clear">lfrtip',				
+					"oTableTools": {
+						"sSwfPath": "assets/media/swf/copy_csv_xls_pdf.swf",
+						"sCharSet": "utf-8",
+						"aButtons": [
+								{
+									"sExtends": "csv",
+									"sFileName": "<?php echo $this->lang->line("products"); ?>.csv",
+                   		 			"mColumns": [ 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19<?php $no_cost = array('salesman', 'viewer'); 
+							if (!$this->ion_auth->in_group($no_cost)) { echo ', 6'; } ?> ]
+								},
+								{
+									"sExtends": "pdf",
+									"sFileName": "<?php echo $this->lang->line("products"); ?>.pdf",
+									"sPdfOrientation": "landscape",
+                   		 			"mColumns": [ 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19<?php $no_cost = array('salesman', 'viewer'); 
+							if (!$this->ion_auth->in_group($no_cost)) { echo ', 6'; } ?> ]
+								},
+								"print"
+						]
+					},*/
+					"aoColumns": [ 
+					  null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
+					  <?php $no_cost = array('salesman', 'viewer'); 
+					  		if (!$this->ion_auth->in_group($no_cost)) { 
+					  
+					  echo "null,";
+					  }
+					  ?>
+					  { "bSortable": false }
+					],
 					"columnDefs": [
-					            { "visible": false, "targets": [0,1,2,3] }
+			            { "visible": false, "targets": [0,1,2,3] },
+			            { "orderable": false, "targets": [4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19] }
 			        ],
 					"drawCallback": function ( settings ) {
 			            var api = this.api();
@@ -74,39 +107,8 @@
 		                    $(this).find('td:last').append($('<span />', { 'class': 'rowCount-grid' }).append($('<b />', { 'text': ' (Sub-total: ' + rowCount +')' })));		                             
 		                });
 			        },
-					"oTableTools": {
-						"sSwfPath": "assets/media/swf/copy_csv_xls_pdf.swf",
-						"sCharSet": "utf-8",
-						"aButtons": [
-								{
-									"sExtends": "csv",
-									"sCharSet": "utf16le",
-									"sFileName": "<?php echo $this->lang->line("products"); ?>.csv",
-                   		 			"mColumns": [ 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19<?php $no_cost = array('salesman', 'viewer'); 
-							if (!$this->ion_auth->in_group($no_cost)) { echo ', 6'; } ?> ]
-								},
-								{
-									"sExtends": "pdf",
-									"sFileName": "<?php echo $this->lang->line("products"); ?>.pdf",
-									"sPdfOrientation": "landscape",
-                   		 			"mColumns": [ 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19<?php $no_cost = array('salesman', 'viewer'); 
-							if (!$this->ion_auth->in_group($no_cost)) { echo ', 6'; } ?> ]
-								},
-								"print"
-						]
-					},
-					"aoColumns": [ 
-					  null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
-					  <?php $no_cost = array('salesman', 'viewer'); 
-					  		if (!$this->ion_auth->in_group($no_cost)) { 
-					  
-					  echo "null,";
-					  }
-					  ?>
-					  { "bSortable": false }
-					]
 					
-                } ).columnFilter({ aoColumns: [
+                } )/*.columnFilter({ aoColumns: [
 						{ type: "text", bRegex:true },
 						{ type: "text", bRegex:true },
 						{ type: "text", bRegex:true },
@@ -132,7 +134,7 @@
 						?>
 						{ type: "text", bRegex:true },
 						null
-                     ]});
+                     ]})*/;
 			
 			$('#fileData').on('click', '.image', function() {
 				var a_href = $(this).attr('href');
@@ -173,7 +175,7 @@
     </div>
 <h3 class="title"><?php echo $page_title; ?></h3>
 
-	<p class="introtext"><?php echo $this->lang->line("list_results"); ?></p>
+	<!-- <p class="introtext"><?php echo $this->lang->line("list_results"); ?></p> -->
     
     <div>
 		<table id="prData" class="table table-bordered table-hover table-striped table-condensed" style="margin-bottom: 5px;">
@@ -215,29 +217,29 @@
 	        </tbody>
 	        
 	        <tfoot>
-	        <tr>
+	        <!-- <tr>
 	        	<th>[<?php echo $this->lang->line("category"); ?>]</th>
 	        	<th>[<?php echo $this->lang->line("subcategories"); ?>]</th>
 	        	<th>[<?php echo $this->lang->line("category_code"); ?>]</th>
 	        	<th>[<?php echo $this->lang->line("subcategory_code"); ?>]</th>
 	        	<th>[<?php echo $this->lang->line("product_id"); ?>]</th>
 	        	<th>[<?php echo $this->lang->line("product_description"); ?>]</th>
-				<th>[<?php echo $this->lang->line("product_tagname"); ?>]</th>
-				<th>[<?php echo $this->lang->line("product_location"); ?>]</th>
-				<th>[<?php echo $this->lang->line("product_construction"); ?>]</th>
-				<th>[<?php echo $this->lang->line("product_date_of_issuing"); ?>]</th>
-				<th>[<?php echo $this->lang->line("product_warehouse"); ?>]</th>
-				<th>[<?php echo $this->lang->line("product_date_of_storage"); ?>]</th>
-				<th>[<?php echo $this->lang->line("product_cert"); ?>]</th>
-				<th>[<?php echo $this->lang->line("product_date_of_testing"); ?>]</th>
-				<th>[<?php echo $this->lang->line("product_date_of_next_testing"); ?>]</th>
-				<th>[<?php echo $this->lang->line("product_status"); ?>]</th>    
-				<th>[<?php echo $this->lang->line("product_remark"); ?>]</th>            
-				<th>[<?php echo $this->lang->line("product_collecting"); ?>]</th>    
-				<th>[<?php echo $this->lang->line("product_date_of_collecting"); ?>]</th>    
-				<th>[<?php echo $this->lang->line("product_job_code"); ?>]</th>    
+	        				<th>[<?php echo $this->lang->line("product_tagname"); ?>]</th>
+	        				<th>[<?php echo $this->lang->line("product_location"); ?>]</th>
+	        				<th>[<?php echo $this->lang->line("product_construction"); ?>]</th>
+	        				<th>[<?php echo $this->lang->line("product_date_of_issuing"); ?>]</th>
+	        				<th>[<?php echo $this->lang->line("product_warehouse"); ?>]</th>
+	        				<th>[<?php echo $this->lang->line("product_date_of_storage"); ?>]</th>
+	        				<th>[<?php echo $this->lang->line("product_cert"); ?>]</th>
+	        				<th>[<?php echo $this->lang->line("product_date_of_testing"); ?>]</th>
+	        				<th>[<?php echo $this->lang->line("product_date_of_next_testing"); ?>]</th>
+	        				<th>[<?php echo $this->lang->line("product_status"); ?>]</th>    
+	        				<th>[<?php echo $this->lang->line("product_remark"); ?>]</th>            
+	        				<th>[<?php echo $this->lang->line("product_collecting"); ?>]</th>    
+	        				<th>[<?php echo $this->lang->line("product_date_of_collecting"); ?>]</th>    
+	        				<th>[<?php echo $this->lang->line("product_job_code"); ?>]</th>    
 	            <th style="width:115px; text-align:center;"><?php echo $this->lang->line("actions"); ?></th> 
-			</tr>
+	        			</tr> -->
 	        </tfoot>
 		</table>
     </div>
