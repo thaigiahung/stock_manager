@@ -1,14 +1,17 @@
 <script src="<?php echo base_url(); ?>assets/media/js/jquery.dataTables.columnFilter.js" type="text/javascript"></script>
+<script src="//cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
+<script src="//cdn.datatables.net/plug-ins/725b2a2115b/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+<script src="//datatables.net/release-datatables/extensions/ColReorder/js/dataTables.colReorder.js"></script>
 <style type="text/css">
 .text_filter { width: 100% !important; font-weight: normal !important; border: 0 !important; box-shadow: none !important;  border-radius: 0 !important;  padding:0 !important; margin:0 !important; font-size: 1em !important;}
 .select_filter { width: 100% !important; padding:0 !important; height: auto !important; margin:0 !important;}
 </style>
 <script>
-             $(document).ready(function() {
-                $('#prData').dataTable( {
+            $(document).ready(function() {
+                $('#prData').dataTable( {                	
 					"aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
                     "aaSorting": [[ 0, "asc" ]],
-                    "iDisplayLength": <?php echo ROWS_PER_PAGE; ?>,
+                    "iDisplayLength": <?php echo ROWS_PER_PAGE; ?>,                    
                     <?php if(BSTATESAVE) { echo '"bStateSave": true,'; } ?>
 					'bProcessing'    : true,
 					'bServerSide'    : true,
@@ -31,6 +34,39 @@
 						'success' : fnCallback
 					  });
 					},	
+					"columnDefs": [
+					            { "visible": false, "targets": [0,1] }
+			        ],
+					"drawCallback": function ( settings ) {
+			            var api = this.api();
+			            var rows = api.rows( {page:'current'} ).nodes();
+			            var last=null;
+			            var last_sub_cat = null;
+			 
+			            api.column(0, {page:'current'} ).data().each( function ( group, i ) {
+			                if ( last !== group ) {
+			                    $(rows).eq( i ).before(
+			                        '<tr class="group"><td colspan="17" style="background-color: #6699FF; color: black;">'+group+'</td></tr>'                                   
+			                    );	
+			                    last = group;
+			                }
+			            } );
+
+			            api.column(1, {page:'current'} ).data().each( function ( group1, i1 ) {
+			                if ( last_sub_cat !== group1 ) {
+			                    $(rows).eq( i1 ).before(
+			                        '<tr class="sub-group"><td colspan="17" style="background-color: #6699FF; color: black;">'+group1+'</td></tr>'
+			                    );
+			                    last_sub_cat = group1;
+			                }
+			            } );
+
+		                $('tbody').find('.sub-group').each(function (i,v) {
+		                    var rowCount = $(this).nextUntil('.sub-group, .group').length;
+		                    $(this).find('td:first').append($('<span />', { 'class': 'rowCount-grid' }).append($('<b />', { 'text': rowCount })));
+		                             
+		                });
+			        },
 					"oTableTools": {
 						"sSwfPath": "assets/media/swf/copy_csv_xls_pdf.swf",
 						"sCharSet": "utf-8",
@@ -53,7 +89,7 @@
 						]
 					},
 					"aoColumns": [ 
-					  null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
+					  null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
 					  <?php $no_cost = array('salesman', 'viewer'); 
 					  		if (!$this->ion_auth->in_group($no_cost)) { 
 					  
@@ -64,7 +100,8 @@
 					]
 					
                 } ).columnFilter({ aoColumns: [
-
+						{ type: "text", bRegex:true },
+						{ type: "text", bRegex:true },
 						{ type: "text", bRegex:true },
 						{ type: "text", bRegex:true },
 						{ type: "text", bRegex:true },
@@ -133,6 +170,8 @@
 		<table id="prData" class="table table-bordered table-hover table-striped table-condensed" style="margin-bottom: 5px;">
 			<thead>
 		        <tr>
+					<th style="background-color: #75A319;color: black;" rowspan="2"><?php echo $this->lang->line("category"); ?></th>
+					<th style="background-color: #75A319;color: black;" rowspan="2"><?php echo $this->lang->line("subcategories"); ?></th>
 					<th style="background-color: #75A319;color: black;" rowspan="2"><?php echo $this->lang->line("product_id"); ?></th>
 					<th style="background-color: #75A319;color: black;" rowspan="2"><?php echo $this->lang->line("product_description"); ?></th>
 					<th style="background-color: #75A319;color: black;" rowspan="2"><?php echo $this->lang->line("product_tagname"); ?></th>
@@ -166,6 +205,8 @@
 	        
 	        <tfoot>
 	        <tr>
+	        	<th>[<?php echo $this->lang->line("category"); ?>]</th>
+	        	<th>[<?php echo $this->lang->line("subcategories"); ?>]</th>
 	        	<th>[<?php echo $this->lang->line("product_id"); ?>]</th>
 	        	<th>[<?php echo $this->lang->line("product_description"); ?>]</th>
 				<th>[<?php echo $this->lang->line("product_tagname"); ?>]</th>
