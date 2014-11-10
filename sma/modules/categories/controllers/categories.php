@@ -77,11 +77,11 @@ class Categories extends MX_Controller {
 
 		//validate form input
 		$this->form_validation->set_rules('code', $this->lang->line("category_code"), 'trim|is_unique[categories.code]|required|xss_clean');
-		$this->form_validation->set_rules('name', $this->lang->line("name"), 'required|min_length[3]|xss_clean');
+		$this->form_validation->set_rules('name', $this->lang->line("name"), 'required|xss_clean');
 	
 		if ($this->form_validation->run() == true)
 		{
-			$name = strtolower($this->input->post('name'));
+			$name = $this->input->post('name');
 			$code = $this->input->post('code');
 			
 		}
@@ -128,7 +128,7 @@ class Categories extends MX_Controller {
 			if ($this->input->post('code') != $pr_details->code) {
 				$this->form_validation->set_rules('code', $this->lang->line("category_code"), 'is_unique[categories.code]');
 			}
-		$this->form_validation->set_rules('name', $this->lang->line("category_name"), 'required|min_length[3]|xss_clean');
+		$this->form_validation->set_rules('name', $this->lang->line("category_name"), 'required|xss_clean');
 		
 		if ($this->form_validation->run() == true)
 		{
@@ -250,7 +250,7 @@ class Categories extends MX_Controller {
 	
 		if ($this->form_validation->run() == true)
 		{
-			$name = strtolower($this->input->post('name'));
+			$name = $this->input->post('name');
 			$code = $this->input->post('code');
 			$category = $this->input->post('category');
 			

@@ -2,7 +2,7 @@
              $(document).ready(function() {
                 $('#fileData').dataTable( {
 					"aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
-                    "aaSorting": [[ 0, "desc" ]],
+                    "aaSorting": [[ 0, "asc" ]],
                     "iDisplayLength": <?php echo ROWS_PER_PAGE; ?>,
 					'bProcessing'    : true,
 					'bServerSide'    : true,
@@ -59,7 +59,7 @@
         <tr>
             <th><?php echo $this->lang->line("subcategory_code"); ?></th>
 			<th><?php echo $this->lang->line("subcategory_name"); ?></th>
-            <th><?php echo $this->lang->line("mian_category"); ?></th>
+            <th><?php echo $this->lang->line("main_category"); ?></th>
             <th style="width:45px;"><?php echo $this->lang->line("actions"); ?></th>
 		</tr>
         </thead>

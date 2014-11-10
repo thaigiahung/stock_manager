@@ -20,8 +20,7 @@ $(document).ready(function(){
               'value'       => $subcategory->code,
               'class'       => 'span4',
 			  'required'	=> 'required',
-			  'pattern' 	=> "[a-zA-Z0-9_-]{2,12}",
-			  'data-error'	=>	$this->lang->line("code").' '.$this->lang->line("is_required").' '.$this->lang->line("min_2")
+			  'data-error'	=>	$this->lang->line("code").' '.$this->lang->line("is_required")
             );
 			
 			

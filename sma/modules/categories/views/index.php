@@ -2,7 +2,7 @@
              $(document).ready(function() {
                 $('#fileData').dataTable( {
 					"aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
-                    "aaSorting": [[ 0, "desc" ]],
+                    "aaSorting": [[ 0, "ASC" ]],
                     "iDisplayLength": <?php echo ROWS_PER_PAGE; ?>,
                     <?php if(BSTATESAVE) { echo '"bStateSave": true,'; } ?>
 					'bProcessing'    : true,
@@ -22,7 +22,7 @@
 					},	
 						
 					"oTableTools": {
-						"sSwfPath": "smlib/media/swf/copy_csv_xls_pdf.swf",
+						"sSwfPath": "assets/media/swf/copy_csv_xls_pdf.swf",
 						"aButtons": [
 								{
 									"sExtends": "csv",

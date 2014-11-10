@@ -20,7 +20,7 @@ $(document).ready(function(){
 </div>
 <div class="control-group">
   <label class="control-label" for="code"><?php echo $this->lang->line("subcategory_code"); ?></label>
-  <div class="controls"> <?php echo form_input($code, '', 'class="span4" id="code" required="required" pattern="[a-zA-Z0-9_-]{2,12}" data-error="'.$this->lang->line("code").' '.$this->lang->line("is_required").' '.$this->lang->line("min_2").'"');?> </div>
+  <div class="controls"> <?php echo form_input($code, '', 'class="span4" id="code" required="required" data-error="'.$this->lang->line("code").' '.$this->lang->line("is_required").'"');?> </div>
 </div>
 <div class="control-group">
   <label class="control-label" for="name"><?php echo $this->lang->line("subcategory_name"); ?></label>
