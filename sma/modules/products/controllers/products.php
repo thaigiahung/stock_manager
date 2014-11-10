@@ -290,7 +290,7 @@ class Products extends MX_Controller {
 			<a class='image tip' id='$4 - $3' href='".$this->config->base_url()."assets/uploads/$2' title='".$this->lang->line("view_image")."'><i class='icon-picture'></i></a>
 			<a href='index.php?module=products&view=add_damage&product_id=$1&warehouse_id=$5' class='tip' title='".$this->lang->line("add_damage_qty")."'><i class='icon-filter'></i></a>
 			<a href='index.php?module=products&view=edit&id=$1' class='tip' title='".$this->lang->line("edit_product")."'><i class='icon-edit'></i></a>
-			<a href='index.php?module=products&view=delete&id=$1' onClick=\"return confirm('". $this->lang->line('alert_x_product') ."')\" class='tip' title='".$this->lang->line("delete_product")."'><i class='icon-trash'></i></a></center>", "id, description, tagname, location_in_warehouse, construction, cert_no");
+			<a href='index.php?module=products&view=delete&id=$1' onClick=\"return confirm('". $this->lang->line('alert_x_product') ."')\" class='tip' title='".$this->lang->line("delete_product")."'><i class='icon-trash'></i></a></center>", "products.id, description, tagname, location_in_warehouse, construction, cert_no");
 		
 	 
 	 echo $this->datatables->generate();
@@ -363,11 +363,15 @@ class Products extends MX_Controller {
 			case 1: //Change date from dd/mm/yyyy -> yyyy-mm-dd
 				$arrDate = explode('/', $date);
 				$strDate = $arrDate[2].'-'.$arrDate[1].'-'.$arrDate[0];
+				if($strDate === '0000-00-00')
+					$strDate = null;
 				break;
 			
 			default: //Change date from yyyy-mm-dd -> dd/mm/yyyy
 				$arrDate = explode('-', $date);
 				$strDate = $arrDate[2].'/'.$arrDate[1].'/'.$arrDate[0];
+				if($strDate === '00/00/0000')
+					$strDate = null;
 				break;
 		}
 		return $strDate;		

@@ -179,7 +179,7 @@
 	<!-- <p class="introtext"><?php echo $this->lang->line("list_results"); ?></p> -->
     
     <div>
-		<table id="prData" class="table table-bordered table-hover table-striped table-condensed" style="margin-bottom: 5px;">
+		<table id="prData" class="table table-bordered table-hover table-striped table-condensed" style="margin-bottom: 5px; min-width: 2500px;">
 			<thead>
 		        <tr>
 					<th style="background-color: #75A319;color: black;" rowspan="2"><?php echo $this->lang->line("category"); ?></th>

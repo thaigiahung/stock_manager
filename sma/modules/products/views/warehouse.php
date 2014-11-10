@@ -154,7 +154,7 @@
 	<h3 class="title"><?php echo $wh_name." - ".$page_title; ?></h3>
 	<p class="introtext"><?php echo $this->lang->line("list_results"); ?></p>
 
-	<table id="fileData" class="table table-bordered table-hover table-striped table-condensed" style="margin-bottom: 5px;">
+	<table id="fileData" class="table table-bordered table-hover table-striped table-condensed" style="margin-bottom: 5px; min-width: 2500px;">
 		<thead>
         <tr>
 	        <tr>
