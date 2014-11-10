@@ -106,7 +106,7 @@
 		                    var rowCount = $(this).nextUntil('.sub-group, .group').length;		                    
 		                    $(this).find('td:last').append($('<span />', { 'class': 'rowCount-grid' }).append($('<b />', { 'text': ' (Sub-total: ' + rowCount +')' })));		                             
 		                });
-			        },
+			        }
 					
                 } )/*.columnFilter({ aoColumns: [
 						{ type: "text", bRegex:true },

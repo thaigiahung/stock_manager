@@ -277,9 +277,11 @@ class Products extends MX_Controller {
  
 	   $this->load->library('datatables');
 	   $this->datatables
-			->select("products.id, products.description, products.tagname, products.location_in_warehouse, products.construction, products.date_of_issuing, products.date_of_storage, products.cert_no, products.date_of_testing, products.date_of_next_testing, products.status, products.remark, products.collecting, products.date_of_collecting, products.job_code", FALSE)
+			->select("categories.name as cat_name,subcategories.name as sub_cat, categories.code as cat_code, subcategories.code as sub_cat_code,products.id, products.description, products.tagname, products.location_in_warehouse, products.construction, products.date_of_issuing, products.date_of_storage, products.cert_no, products.date_of_testing, products.date_of_next_testing, products.status, products.remark, products.collecting, products.date_of_collecting, products.job_code", FALSE)
 			->from('warehouses_products')
 			->join('products', 'products.id=warehouses_products.product_id', 'left')
+			->join('categories', 'products.category_id=categories.id', 'left')
+			->join('subcategories', 'products.subcategory_id=subcategories.id', 'left')			
 			->where('warehouses_products.warehouse_id', $warehouse_id)
 			->group_by("products.id")
 			->add_column("Actions", 
