@@ -62,7 +62,7 @@ class Products extends MX_Controller {
 			->join('subcategories', 'products.subcategory_id=subcategories.id', 'left')
 			->join('warehouses_products', 'products.id=warehouses_products.product_id', 'left')
 			->join('warehouses', 'warehouses.id=warehouses_products.warehouse_id', 'left')
-			->group_by("products.id");
+			->group_by("categories.id, subcategories.id, products.id");
 		$this->datatables->add_column("Actions", 
 		"<center><a id='$4 - $3' href='index.php?module=products&view=gen_barcode&code=$3&height=200' title='".$this->lang->line("view_barcode")."' class='barcode tip'><i class='icon-barcode'></i></a> <a href='#' onClick=\"MyWindow=window.open('index.php?module=products&view=product_details&id=$1', 'MyWindow','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600'); return false;\" class='tip' title='".$this->lang->line("product_details")."'><i class='icon-fullscreen'></i></a> <a class='image tip' id='$4 - $3' href='".$this->config->base_url()."assets/uploads/$2' title='".$this->lang->line("view_image")."'><i class='icon-picture'></i></a> <a href='index.php?module=products&view=add_damage&product_id=$1' class='tip' title='".$this->lang->line("add_damage_qty")."'><i class='icon-filter'></i></a> <a href='index.php?module=products&view=edit&id=$1' class='tip' title='".$this->lang->line("edit_product")."'><i class='icon-edit'></i></a> <a href='index.php?module=products&view=delete&id=$1' onClick=\"return confirm('". $this->lang->line('alert_x_product') ."')\" class='tip' title='".$this->lang->line("delete_product")."'><i class='icon-trash'></i></a></center>", "productid, image, code, name");
 						
@@ -81,7 +81,7 @@ class Products extends MX_Controller {
 			->join('subcategories', 'products.subcategory_id=subcategories.id', 'left')
 			->join('warehouses_products', 'products.id=warehouses_products.product_id', 'left')
 			->join('warehouses', 'warehouses.id=warehouses_products.warehouse_id', 'left')
-			->group_by("products.id");
+			->group_by("categories.id, subcategories.id, products.id");
 			$this->datatables->add_column("Actions", 
 			"<center><a id='$4 - $3' href='index.php?module=products&view=gen_barcode&code=$3&height=200' title='".$this->lang->line("view_barcode")."' class='barcode tip'><i class='icon-barcode'></i></a> <a href='#' onClick=\"MyWindow=window.open('index.php?module=products&view=product_details&id=$1', 'MyWindow','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600'); return false;\" class='tip' title='".$this->lang->line("product_details")."'><i class='icon-fullscreen'></i></a> <a class='image tip' id='$4 - $3' href='".$this->config->base_url()."assets/uploads/$2' title='".$this->lang->line("view_image")."'><i class='icon-picture'></i></a> <a href='index.php?module=products&view=add_damage&product_id=$1' class='tip' title='".$this->lang->line("add_damage_qty")."'><i class='icon-filter'></i></a> <a href='index.php?module=products&view=edit&id=$1' class='tip' title='".$this->lang->line("edit_product")."'><i class='icon-edit'></i></a> <a href='index.php?module=products&view=delete&id=$1' onClick=\"return confirm('". $this->lang->line('alert_x_product') ."')\" class='tip' title='".$this->lang->line("delete_product")."'><i class='icon-trash'></i></a></center>", "productid, image, code, name");
 						
@@ -283,7 +283,7 @@ class Products extends MX_Controller {
 			->join('categories', 'products.category_id=categories.id', 'left')
 			->join('subcategories', 'products.subcategory_id=subcategories.id', 'left')			
 			->where('warehouses_products.warehouse_id', $warehouse_id)
-			->group_by("products.id")
+			->group_by("categories.id, subcategories.id, products.id")
 			->add_column("Actions", 
 			"<center><a id='$4 - $3' href='index.php?module=products&view=gen_barcode&code=$3&height=200' title='".$this->lang->line("view_barcode")."' class='barcode tip'><i class='icon-barcode'></i></a>
 			<a href='#' onClick=\"MyWindow=window.open('index.php?module=products&view=product_details&id=$1', 'MyWindow','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=500'); return false;\" class='tip' title='".$this->lang->line("product_details")."'><i class='icon-fullscreen'></i></a>

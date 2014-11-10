@@ -60,27 +60,29 @@
 			            var last_sub_cat = null;
 			 
 			            api.column(0, {page:'current'} ).data().each( function ( group, i ) {
-			                if ( last !== group ) {
-			                	var cat_code = "";
+			                if ( last !== group ) {		                	
 			                	api.column(2, {page:'current'} ).data().each( function ( group2, i2 ) {
-			                		cat_code = group2;			                		
-			                	});
-			                	$(rows).eq( i ).before(
-		                		    '<tr class="group"><td style="background-color: #6699FF; color: black;">' + cat_code +'</td><td colspan="16" style="background-color: #6699FF; color: black;">'+group+'</td></tr>'
-		                		);
+			                		if(i == i2)
+			                		{
+    				                	$(rows).eq( i2 ).before(			                		
+    			                		    '<tr class="group"><td style="background-color: #6699FF; color: black;">' + group2 +'</td><td colspan="16" style="background-color: #6699FF; color: black;">'+group+'</td></tr>'
+    			                		);	
+			                		}			                			                		
+			                	});		                	
 			                    last = group;
 			                }
 			            } );
 
 			            api.column(1, {page:'current'} ).data().each( function ( group1, i1 ) {
 			                if ( last_sub_cat !== group1 ) {
-			                	var sub_cat_code = "";
 			                	api.column(3, {page:'current'} ).data().each( function ( group3, i3 ) {
-			                		sub_cat_code = group3;			                		
-			                	});
-			                    $(rows).eq( i1 ).before(
-			                        '<tr class="sub-group"><td style="background-color: #CCCCCC; color: black;">' + sub_cat_code +'</td><td colspan="16" style="background-color: #CCCCCC; color: black;">'+group1+'</td></tr>'
-			                    );
+			                		if(i1 == i3)
+			                		{
+			                			$(rows).eq( i1 ).before(
+			                			    '<tr class="sub-group"><td style="background-color: #CCCCCC; color: black;">' + group3 +'</td><td colspan="16" style="background-color: #CCCCCC; color: black;">'+group1+'</td></tr>'
+			                			);
+			                		}		                		
+			                	});			                    
 			                    last_sub_cat = group1;
 			                }
 			            } );
@@ -171,7 +173,7 @@
 				<th style="background-color: #75A319;color: black;" rowspan="2"><?php echo $this->lang->line("product_status"); ?></th>     
 				<th style="background-color: #75A319;color: black;" rowspan="2"><?php echo $this->lang->line("product_remark"); ?></th> 
 				<th style="background-color: #3399FF;color: black;" colspan="3"><?php echo $this->lang->line("product_cargo_manifest"); ?></th>
-	            <th rowspan="2" style="min-width:115px; text-align:center;"><?php echo $this->lang->line("actions"); ?></th> 
+	            <th rowspan="2" style="background-color: #75A319;color: black; min-width:115px; text-align:center;"><?php echo $this->lang->line("actions"); ?></th> 
 			</tr>
 	        <tr>					
 				<th style="background-color: #75A319;color: black;"><?php echo $this->lang->line("product_construction"); ?></th>
