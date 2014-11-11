@@ -59,7 +59,10 @@
 					  {
 				        "defaultContent": ""
 				      }, null, null, null, null, null, null, null, null, null, 
-					  null, null, null, null, null, null, null, null, null,
+					  null, null, null, null, null, null, null, 
+					  	{
+					        "defaultContent": ""
+					    }, null,
 					  <?php $no_cost = array('salesman', 'viewer'); 
 					  		if (!$this->ion_auth->in_group($no_cost)) { 
 					  
@@ -84,12 +87,14 @@
 			            },
             			{
                             "render": function ( data, type, row ) {
-                                if(data === 1)
+                                console.log(data);
+                                if(data === "1"){
                                 	return "Lấy hàng";
+                                }
                                 else
                                 {
-                                	return "Không lấy hàng";
-                                }
+                                	return  "Không lấy hàng";
+                                }                                
                             },
                             "targets": 17
                         },

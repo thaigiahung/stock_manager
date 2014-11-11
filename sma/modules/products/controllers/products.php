@@ -513,7 +513,6 @@ class Products extends MX_Controller {
 				'cf6' => $this->input->post('cf6')
 			);		
 		}			 
-		
 		if ( $this->form_validation->run() == true && $this->products_model->updateProduct($id, $data,$warehouse_id))
 		{  
 			$this->session->set_flashdata('success_message', $this->lang->line("product_updated"));
