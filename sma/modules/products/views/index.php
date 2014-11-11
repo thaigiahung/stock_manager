@@ -56,7 +56,10 @@
 						]
 					},*/
 					"aoColumns": [ 
-					  null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
+					  {
+				        "defaultContent": ""
+				      }, null, null, null, null, null, null, null, null, null, 
+					  null, null, null, null, null, null, null, null, null,
 					  <?php $no_cost = array('salesman', 'viewer'); 
 					  		if (!$this->ion_auth->in_group($no_cost)) { 
 					  
@@ -66,6 +69,30 @@
 					  { "bSortable": false }
 					],
 					"columnDefs": [
+						{
+			                "render": function ( data, type, row ) {
+			                    if(data === "0000-00-00")
+			                    	return "";
+			                    else
+			                    {
+			                    	var dateAr = data.split('-');
+			                    	var newDate = dateAr[2] + '/' + dateAr[1] + '/' + dateAr[0];
+			                    	return newDate;
+			                    }
+			                },
+			                "targets": [9,10,13,14,18]
+			            },
+            			{
+                            "render": function ( data, type, row ) {
+                                if(data === 1)
+                                	return "Lấy hàng";
+                                else
+                                {
+                                	return "Không lấy hàng";
+                                }
+                            },
+                            "targets": 17
+                        },
 			            { "visible": false, "targets": [0,1,2,3] },
 			            { "orderable": false, "targets": [4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19] }
 			        ],
@@ -202,8 +229,8 @@
 		        <tr>					
 					<th style="background-color: #75A319;color: black;"><?php echo $this->lang->line("product_construction"); ?></th>
 					<th style="background-color: #75A319;color: black;"><?php echo $this->lang->line("product_date_of_issuing"); ?></th>
-					<th style="background-color: #75A319;color: black;"><?php echo $this->lang->line("product_warehouse"); ?></th>
 					<th style="background-color: #75A319;color: black;"><?php echo $this->lang->line("product_date_of_storage"); ?></th>
+					<th style="background-color: #75A319;color: black;"><?php echo $this->lang->line("product_warehouse"); ?></th>					
 					<th style="background-color: #3399FF;color: black;"><?php echo $this->lang->line("product_collecting"); ?></th>                
 					<th style="background-color: #3399FF;color: black;"><?php echo $this->lang->line("product_date_of_collecting"); ?></th>     
 					<th style="background-color: #3399FF;color: black;"><?php echo $this->lang->line("product_job_code"); ?></th>
