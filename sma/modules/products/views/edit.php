@@ -144,7 +144,7 @@ $(document).ready(function(){
 
 <div class="control-group">
   <label class="control-label" for="collecting"><?php echo $this->lang->line("product_collecting"); ?></label>
-  <div class="controls"> <?php var_dump($product->collecting); echo form_checkbox('collecting','', $product->collecting === "1" ? true : false, 'class="span4" id="collecting"'); ?> </div>
+  <div class="controls"> <?php echo form_checkbox('collecting','', $product->collecting === "1" ? true : false, 'class="span4" id="collecting"'); ?> </div>
 </div>
 
 <div class="control-group">
